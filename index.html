@@ -1055,18 +1055,11 @@
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
         <li>
-          <a href="#resume-section" class="nav-dl"
-            ><svg
-              width="11"
-              height="11"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"
-              /></svg
+          <a
+            href="./resume.pdf"
+            class="nav-dl"
+            target="_blank"
+            rel="noopener noreferrer"
             >resume.pdf</a
           >
         </li>
@@ -1689,20 +1682,14 @@
               /></svg
             >PDF 다운로드
           </button>
-          <a href="#" class="btn-resume-ghost" target="_blank"
-            ><svg
-              width="15"
-              height="15"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2.2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8zM12 9a3 3 0 100 6 3 3 0 000-6z"
-              /></svg
-            >온라인으로 보기</a
+          <a
+            href="./resume.pdf"
+            class="btn-resume-ghost"
+            target="_blank"
+            rel="noopener noreferrer"
           >
+            온라인으로 보기
+          </a>
           <div class="resume-file-info">
             김개발_이력서_2025.pdf · 최종 업데이트 2025.03
           </div>
@@ -1889,9 +1876,10 @@
       document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
       function doDownload() {
         const a = document.createElement("a");
-        a.href = "/resume.pdf";
-        a.download = "김개발_이력서_2025.pdf";
+        a.href = "./resume.pdf";
+        a.download = "김도연_이력서_2026.pdf";
         a.click();
+
         const btn = document.getElementById("dl-btn");
         btn.textContent = "✓ 다운로드 완료";
         setTimeout(() => {
