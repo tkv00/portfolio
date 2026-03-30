@@ -1,0 +1,1793 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TR1L // KIM.DO YEON</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --bg: #f5f3ee;
+        --bg2: #eceae3;
+        --bg3: #e0ddd4;
+        --paper: #fafaf7;
+        --ink: #111110;
+        --ink2: #3d3c39;
+        --ink3: #7a7874;
+        --green: #00a86b;
+        --green-bg: #e6f7f0;
+        --blue: #0057ff;
+        --blue-bg: #e6edff;
+        --red: #e8321a;
+        --amber: #d97706;
+        --border: rgba(0, 0, 0, 0.09);
+        --mono: "DM Mono", monospace;
+        --sans: "Instrument Sans", sans-serif;
+        --display: "Bebas Neue", sans-serif;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--sans);
+        background: var(--bg);
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      #bg-canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.3;
+      }
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        height: 52px;
+        background: rgba(245, 243, 238, 0.92);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        padding: 0 2rem;
+        gap: 1.5rem;
+      }
+      .nav-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        color: var(--ink3);
+        transition: color 0.15s;
+      }
+      .nav-back:hover {
+        color: var(--ink);
+      }
+      .nav-back:hover svg {
+        transform: translateX(-2px);
+      }
+      .nav-back svg {
+        transition: transform 0.15s;
+      }
+      .nav-crumb {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        color: var(--ink3);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .nav-crumb .sep {
+        opacity: 0.4;
+      }
+      .nav-crumb .current {
+        color: var(--ink);
+      }
+      .nav-actions {
+        margin-left: auto;
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+      }
+      .nav-tag {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        background: var(--blue-bg);
+        color: var(--blue);
+        border: 1px solid rgba(0, 87, 255, 0.15);
+        padding: 0.25rem 0.65rem;
+        border-radius: 3px;
+      }
+      .btn-sm {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        background: var(--ink);
+        color: #fff;
+        padding: 0.4rem 0.9rem;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+      }
+      .btn-sm:hover {
+        background: var(--blue);
+        transform: translateY(-1px);
+      }
+
+      /* HERO */
+      .proj-hero {
+        position: relative;
+        z-index: 1;
+        padding-top: 52px;
+        min-height: 62vh;
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        border-bottom: 1px solid var(--border);
+      }
+      .proj-hero-left {
+        padding: 4rem 3rem 4rem 3.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        border-right: 1px solid var(--border);
+      }
+      .proj-type-badge {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--ink3);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .proj-type-badge::before {
+        content: "//";
+        color: var(--green);
+      }
+      .proj-title {
+        font-family: var(--display);
+        font-size: clamp(5rem, 10vw, 9rem);
+        line-height: 0.88;
+        letter-spacing: 0.01em;
+        margin-bottom: 1.5rem;
+      }
+      .proj-title .t-blue {
+        color: var(--blue);
+      }
+      .proj-tagline {
+        font-size: 1.05rem;
+        line-height: 1.75;
+        color: var(--ink2);
+        max-width: 540px;
+        margin-bottom: 2rem;
+      }
+      .proj-links-hero {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+      .phl {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.55rem 1rem;
+        border-radius: 4px;
+        transition: all 0.15s;
+      }
+      .phl-solid {
+        background: var(--ink);
+        color: #fff;
+      }
+      .phl-solid:hover {
+        background: var(--blue);
+        transform: translateY(-1px);
+      }
+      .phl-ghost {
+        border: 1px solid var(--border);
+        color: var(--ink2);
+      }
+      .phl-ghost:hover {
+        border-color: var(--ink);
+        transform: translateY(-1px);
+      }
+
+      .proj-hero-right {
+        padding: 4rem 2.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .meta-block {
+        padding: 1.25rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .meta-block:first-child {
+        border-top: 1px solid var(--border);
+      }
+      .meta-lbl {
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        color: var(--ink3);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.4rem;
+      }
+      .meta-val {
+        font-size: 0.88rem;
+        color: var(--ink2);
+        line-height: 1.5;
+      }
+      .meta-stat-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        overflow: hidden;
+        margin-top: 1.5rem;
+      }
+      .meta-stat {
+        background: var(--paper);
+        padding: 1rem 0.85rem;
+        transition: background 0.2s;
+      }
+      .meta-stat:hover {
+        background: var(--bg2);
+      }
+      .meta-stat-val {
+        font-family: var(--mono);
+        font-size: 1.15rem;
+        font-weight: 500;
+        color: var(--blue);
+        margin-bottom: 0.2rem;
+      }
+      .meta-stat-lbl {
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        color: var(--ink3);
+      }
+      .stack-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        margin-top: 0.75rem;
+      }
+      .stag {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        padding: 0.22rem 0.55rem;
+        border-radius: 3px;
+        border: 1px solid transparent;
+        transition: all 0.15s;
+      }
+      .stag:hover {
+        transform: translateY(-1px);
+      }
+      .stag.b {
+        background: var(--blue-bg);
+        color: var(--blue);
+        border-color: rgba(0, 87, 255, 0.15);
+      }
+      .stag.g {
+        background: var(--green-bg);
+        color: var(--green);
+        border-color: rgba(0, 168, 107, 0.15);
+      }
+      .stag.n {
+        background: var(--bg2);
+        color: var(--ink2);
+        border-color: var(--border);
+      }
+      .stag.a {
+        background: #fff7ed;
+        color: var(--amber);
+        border-color: rgba(217, 119, 6, 0.2);
+      }
+      .stag.r {
+        background: #fef2f2;
+        color: var(--red);
+        border-color: rgba(232, 50, 26, 0.15);
+      }
+
+      .section {
+        position: relative;
+        z-index: 1;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 5rem 2rem;
+      }
+      .section-divider {
+        height: 1px;
+        background: var(--border);
+        position: relative;
+        z-index: 1;
+      }
+      .sec-label {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--ink3);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+      }
+      .sec-label::before {
+        content: "//";
+        color: var(--green);
+      }
+      .sec-label::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+      h2.big {
+        font-family: var(--display);
+        font-size: clamp(3rem, 5vw, 5rem);
+        line-height: 0.95;
+        margin-bottom: 2rem;
+      }
+
+      /* KPI BANNER */
+      .kpi-banner {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 3rem;
+      }
+      .kpi-cell {
+        background: var(--paper);
+        padding: 1.5rem 1.25rem;
+        transition: background 0.2s;
+        cursor: default;
+      }
+      .kpi-cell:hover {
+        background: var(--bg);
+      }
+      .kpi-val {
+        font-family: var(--display);
+        font-size: 2.2rem;
+        color: var(--blue);
+        line-height: 1;
+        margin-bottom: 0.4rem;
+      }
+      .kpi-val.green {
+        color: var(--green);
+      }
+      .kpi-lbl {
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        color: var(--ink3);
+      }
+
+      /* OVERVIEW */
+      .overview-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .ov-cell {
+        background: var(--paper);
+        padding: 1.75rem 1.5rem;
+        transition: background 0.2s;
+      }
+      .ov-cell:hover {
+        background: var(--bg);
+      }
+      .ov-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+      .ov-title {
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+      }
+      .ov-body {
+        font-size: 0.87rem;
+        color: var(--ink2);
+        line-height: 1.68;
+      }
+
+      /* TIMELINE */
+      .timeline {
+        position: relative;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: var(--border);
+      }
+      .tl-item {
+        position: relative;
+        padding: 0 0 3.5rem 64px;
+      }
+      .tl-item:last-child {
+        padding-bottom: 0;
+      }
+      .tl-num {
+        position: absolute;
+        left: 0;
+        top: 2px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--paper);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        font-weight: 500;
+        color: var(--blue);
+        z-index: 1;
+      }
+      .tl-title {
+        font-family: var(--display);
+        font-size: 1.6rem;
+        letter-spacing: 0.01em;
+        margin-bottom: 1.25rem;
+      }
+      .tl-card {
+        background: var(--paper);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 0.75rem;
+        transition: box-shadow 0.2s;
+      }
+      .tl-card:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      }
+      .tl-card-head {
+        padding: 0.75rem 1.25rem;
+        background: var(--bg2);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--ink3);
+      }
+      .dot-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+      .dot-label::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+      }
+      .dot-label.bg {
+        color: #4d8dff;
+      }
+      .dot-label.bg::before {
+        background: #4d8dff;
+      }
+      .dot-label.ch {
+        color: var(--amber);
+      }
+      .dot-label.ch::before {
+        background: var(--amber);
+      }
+      .dot-label.sol {
+        color: var(--green);
+      }
+      .dot-label.sol::before {
+        background: var(--green);
+      }
+      .dot-label.res {
+        color: var(--blue);
+      }
+      .dot-label.res::before {
+        background: var(--blue);
+      }
+      .tl-card-body {
+        padding: 1.1rem 1.25rem;
+      }
+      .tl-card-body p {
+        font-size: 0.88rem;
+        color: var(--ink2);
+        line-height: 1.7;
+      }
+      .tl-card-body ul {
+        list-style: none;
+        padding: 0;
+      }
+      .tl-card-body ul li {
+        font-size: 0.88rem;
+        color: var(--ink2);
+        line-height: 1.7;
+        padding: 0.2rem 0 0.2rem 1.1rem;
+        position: relative;
+      }
+      .tl-card-body ul li::before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        color: var(--green);
+        font-size: 0.75rem;
+      }
+      .tl-result-list {
+        list-style: none;
+        padding: 0;
+      }
+      .tl-result-list li {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--ink);
+        padding: 0.3rem 0 0.3rem 1.4rem;
+        position: relative;
+        line-height: 1.6;
+      }
+      .tl-result-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--green);
+        font-weight: 700;
+      }
+      .tl-pr-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--blue);
+        margin-left: 0.5rem;
+        transition: opacity 0.15s;
+      }
+      .tl-pr-link:hover {
+        opacity: 0.7;
+      }
+      .dev-hero-shot {
+        margin: 0 0 2.2rem;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--paper);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .dev-hero-shot:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+      }
+
+      .dev-hero-shot img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+
+      .dev-hero-caption {
+        padding: 0.85rem 1rem;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--ink3);
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+      }
+      /* CONTRIB */
+      .contrib-bar-wrap {
+        margin: 1.5rem 0;
+      }
+      .contrib-item {
+        margin-bottom: 1rem;
+      }
+      .contrib-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        margin-bottom: 0.4rem;
+      }
+      .contrib-label {
+        color: var(--ink2);
+      }
+      .contrib-pct {
+        color: var(--blue);
+        font-weight: 500;
+      }
+      .contrib-bar {
+        height: 4px;
+        background: var(--bg3);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .contrib-fill {
+        height: 100%;
+        border-radius: 2px;
+        background: var(--blue);
+        transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .contrib-fill.green {
+        background: var(--green);
+      }
+      .contrib-fill.amber {
+        background: var(--amber);
+      }
+
+      footer {
+        position: relative;
+        z-index: 1;
+        border-top: 1px solid var(--border);
+        padding: 1.5rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--ink3);
+      }
+      .dot-live {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+        display: inline-block;
+        margin-right: 0.4rem;
+        animation: pulse-dot 2s ease-in-out infinite;
+      }
+      @keyframes pulse-dot {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(0, 168, 107, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 0 5px rgba(0, 168, 107, 0);
+        }
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(16px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: none;
+      }
+      .d1 {
+        transition-delay: 0.06s;
+      }
+      .d2 {
+        transition-delay: 0.12s;
+      }
+      .d3 {
+        transition-delay: 0.18s;
+      }
+
+      @media (max-width: 900px) {
+        .proj-hero {
+          grid-template-columns: 1fr;
+        }
+        .proj-hero-right {
+          border-top: 1px solid var(--border);
+        }
+        .overview-grid {
+          grid-template-columns: 1fr;
+        }
+        .kpi-banner {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .proj-title {
+          font-size: clamp(4rem, 18vw, 6rem);
+        }
+        .tl-item {
+          padding-left: 52px;
+        }
+        .kpi-banner {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="bg-canvas"></canvas>
+
+    <nav>
+      <a href="index.html" class="nav-back">
+        <svg
+          width="14"
+          height="14"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          viewBox="0 0 24 24"
+        >
+          <path d="M19 12H5M12 5l-7 7 7 7" />
+        </svg>
+        포트폴리오로
+      </a>
+      <div class="nav-crumb">
+        <span class="sep">/</span><span>Projects</span
+        ><span class="sep">/</span>
+        <span class="current">SHOOT POINTER</span>
+      </div>
+      <div class="nav-actions">
+        <span class="nav-tag">GRADUATION PROJECT</span>
+        <a
+          href="https://github.com/ShootPointer/ShootPointer_BE"
+          class="btn-sm"
+          target="_blank"
+        >
+          <svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+            />
+          </svg>
+          GitHub
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="proj-hero">
+      <div class="proj-hero-left">
+        <div class="proj-type-badge">Graduation Project · 5인 팀</div>
+        <h1 class="proj-title">
+          SHOOT<br /><span class="t-blue">POINTER</span>
+        </h1>
+        <p class="proj-tagline">
+          ShootPointer는 농구 영상을 업로드하면 개인 하이라이트를 생성하고,
+          생성된 결과를 커뮤니티 게시글과 랭킹으로 연결하는 서비스.
+        </p>
+
+        <div class="proj-links-hero">
+          <a
+            href="https://github.com/ShootPointer/ShootPointer_BE"
+            class="phl phl-solid"
+            target="_blank"
+          >
+            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+              />
+            </svg>
+            GitHub 바로가기
+          </a>
+        </div>
+      </div>
+
+      <div class="proj-hero-right">
+        <div class="meta-block">
+          <div class="meta-lbl">기간</div>
+          <div class="meta-val">2025.05 ~ 2025.12</div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-lbl">팀 구성</div>
+          <div class="meta-val">
+            5인 팀 · 팀장 &amp; Backend &amp; 전체 시스템 아키텍처 리드
+          </div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-lbl">기여도</div>
+          <div class="meta-val">
+            전체 40% · 백엔드 60% · DevOps 100% · 기획 40%
+          </div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-lbl">Tech Stack</div>
+          <div class="stack-pills">
+            <span class="stag b">Spring Boot</span>
+
+            <span class="stag b">Spring Security</span>
+            <span class="stag b">Spring Data JPA</span>
+            <span class="stag b">Java 21</span>
+            <span class="stag a">Azure</span>
+            <span class="stag g">PostgreSQL</span>
+            <span class="stag g">Redis</span>
+            <span class="stag g">Elastic Search</span>
+            <span class="stag n">Jacoco</span>
+            <span class="stag n">Docker</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- KPI BANNER -->
+    <div
+      style="
+        position: relative;
+        z-index: 1;
+        border-bottom: 1px solid var(--border);
+      "
+    >
+      <div
+        class="kpi-banner"
+        style="
+          max-width: 1100px;
+          margin: 0 auto;
+          border-left: none;
+          border-right: none;
+          border-radius: 0;
+          border-top: none;
+        "
+      >
+        <div class="kpi-cell">
+          <div class="kpi-val green">+55.89%</div>
+          <div class="kpi-lbl">검색 정확성 향상</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-val">1M</div>
+          <div class="kpi-lbl">좋아요 동시성 테스트</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-val green">4.5배</div>
+          <div class="kpi-lbl">CI/CD 배포 시간 개선</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-val">Real-time</div>
+          <div class="kpi-lbl">Redis Pub/Sub + SSE</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="section">
+      <div class="sec-label reveal">Overview</div>
+      <h2 class="big reveal d1">WHAT &amp;<br />WHY</h2>
+      <div class="overview-grid reveal d2">
+        <div class="ov-cell">
+          <div class="ov-icon">📌</div>
+          <div class="ov-title">기획 배경</div>
+          <div class="ov-body">
+            <strong>ShootPointer</strong>는 농구 영상을 업로드하면 개인
+            하이라이트를 생성하고, 그 결과를 게시글·좋아요·검색·랭킹으로
+            확장하는 서비스다. 단순 영상 저장이 아니라, 사용자가 원하는 장면을
+            빠르게 소비하고 커뮤니티 활동까지 자연스럽게 이어지도록 만드는 것이
+            핵심 문제였다.
+          </div>
+        </div>
+        <div class="ov-cell">
+          <div class="ov-icon">🎯</div>
+          <div class="ov-title">프로젝트 목표</div>
+          <div class="ov-body">
+            외부 <strong>OpenCV 서버</strong>와 안전하게 협업할 수 있는
+            업로드·처리 파이프라인을 만들고,
+            <strong>Redis Pub/Sub + SSE</strong> 기반으로 실시간 진행률을
+            전달하며, 검색·랭킹·좋아요까지 연결되는 커뮤니티형 백엔드 서비스를
+            구축하는 것이 목표였다.
+          </div>
+        </div>
+        <div class="ov-cell">
+          <div class="ov-icon">⚡</div>
+          <div class="ov-title">주요 기능</div>
+
+          <div class="ov-body">
+            ✔ OpenCV 연동 하이라이트 생성<br />
+            ✔ Presigned Upload + 실시간 진행률 SSE<br />
+            ✔ ElasticSearch 기반 게시물 검색<br />
+            ✔ 좋아요 동시성 제어 및 랭킹 집계<br />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- ROLE -->
+    <div class="section">
+      <div class="sec-label reveal">Role</div>
+      <h2 class="big reveal d1">MY<br />ROLE</h2>
+      <div class="reveal d2">
+        <p
+          style="
+            font-size: 0.95rem;
+            color: var(--ink2);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            max-width: 600px;
+          "
+        >
+          <strong>Team Leader &amp; Backend Engineer</strong> — 전체 기여도 40%.
+          기획부터 OpenCV 파이프라인 개발, 프로젝트 전체 아키텍처 구성까지 전
+          영역을 주도했습니다.
+        </p>
+        <div class="contrib-bar-wrap">
+          <div class="contrib-item">
+            <div class="contrib-header">
+              <span class="contrib-label">기획</span
+              ><span class="contrib-pct">40%</span>
+            </div>
+            <div class="contrib-bar">
+              <div
+                class="contrib-fill"
+                style="width: 0%"
+                data-width="40%"
+              ></div>
+            </div>
+          </div>
+          <div class="contrib-item">
+            <div class="contrib-header">
+              <span class="contrib-label">백엔드 개발</span
+              ><span class="contrib-pct">60%</span>
+            </div>
+            <div class="contrib-bar">
+              <div
+                class="contrib-fill green"
+                style="width: 0%"
+                data-width="60%"
+              ></div>
+            </div>
+          </div>
+          <div class="contrib-item">
+            <div class="contrib-header">
+              <span class="contrib-label">DevOps</span
+              ><span class="contrib-pct">100%</span>
+            </div>
+            <div class="contrib-bar">
+              <div
+                class="contrib-fill amber"
+                style="width: 0%"
+                data-width="100%"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <details
+          style="margin-top: 1rem; font-size: 0.85rem; color: var(--ink3)"
+        >
+          <summary
+            style="
+              cursor: pointer;
+              color: var(--ink2);
+              font-weight: 500;
+              list-style: none;
+            "
+          >
+            ▸ 세부 기여 내역 보기
+          </summary>
+          <ul
+            style="
+              margin-top: 0.75rem;
+              padding-left: 1.25rem;
+              line-height: 1.9;
+              color: var(--ink2);
+            "
+          >
+            <li>OpenCV 연동 하이라이트 처리 파이프라인 구축</li>
+            <li>Presigned Upload + 실시간 진행률 SSE</li>
+            <li>ElasticSearch 기반 게시물 검색</li>
+            <li>좋아요 동시성 제어 및 랭킹 집계</li>
+          </ul>
+        </details>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- DEV DETAILS -->
+    <div class="section">
+      <div class="sec-label reveal">Dev Details</div>
+      <h2 class="big reveal d1">HOW I<br />BUILT IT</h2>
+      <div class="timeline reveal d2">
+        <!-- 1 -->
+        <div class="tl-item">
+          <div class="tl-num">1</div>
+          <div class="tl-title">
+            OpenCV 협업 기반 하이라이트 생성 파이프라인
+          </div>
+          <div class="dev-hero-shot reveal d2">
+            <img src="./image/highlight.png" alt="Highlight Diagram" />
+            <div class="dev-hero-caption">Highlight Sequence Diagram</div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label bg">배경</span>
+            </div>
+            <div class="tl-card-body">
+              <p>
+                ShootPointer는 농구 영상을 올리면 개인 하이라이트를 생성하고, 그
+                결과를 게시글·검색·랭킹까지 연결하는 서비스였습니다. 핵심은 영상
+                분석 자체보다, OpenCV 서버와 백엔드가 역할을 분리해 안전하게
+                협업하는 구조를 만드는 것이었습니다.
+              </p>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label ch">도전 과제</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  백엔드가 직접 영상 처리하지 않고 외부 OpenCV 서버와 협업해야
+                  했음
+                </li>
+                <li>
+                  업로드 권한, 사용자 식별, 작업 추적을 안전하게 연결해야 했음
+                </li>
+                <li>
+                  하이라이트 생성 진행 상황을 사용자에게 실시간으로 보여줘야
+                  했음
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label sol">해결 방안</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  백엔드는 등번호 등록, 회원-등번호 매핑, 하이라이트 결과 저장
+                  API를 담당하고, OpenCV 서버는 개인 식별과 클립 생성을
+                  담당하도록 책임을 분리
+                  <a
+                    href="https://github.com/ShootPointer/ShootPointer_BE/pull/40"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #40</a
+                  >
+                  <a
+                    href="https://github.com/ShootPointer/ShootPointer_BE/pull/48"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #48</a
+                  >
+                  <a
+                    href="https://github.com/ShootPointer/ShootPointer_BE/pull/52"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #52</a
+                  >
+                </li>
+                <li>
+                  OpenCV가 생성한 결과를
+                  <code>/api/highlight/upload-result</code>로 수신해 DB에
+                  저장하고, 이후 게시글 작성과 조회 흐름에서 재사용 가능하도록
+                  구성
+                  <a
+                    href="https://github.com/ShootPointer/ShootPointer_BE/pull/52"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #52</a
+                  >
+                </li>
+                <li>
+                  백엔드가 미디어 처리 자체를 맡지 않고, 외부 처리 서버와
+                  협업하는 구조로 서비스 서버의 책임을 명확히 유지
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="tl-card"
+            style="
+              border-color: rgba(0, 168, 107, 0.2);
+              background: var(--green-bg);
+            "
+          >
+            <div
+              class="tl-card-head"
+              style="
+                background: rgba(0, 168, 107, 0.08);
+                border-color: rgba(0, 168, 107, 0.15);
+              "
+            >
+              <span class="dot-label res" style="color: var(--green)"
+                >결과</span
+              >
+            </div>
+            <div class="tl-card-body">
+              <ul class="tl-result-list">
+                <li>
+                  단순 영상 업로드가 아니라 “업로드 → 처리 → 진행률 확인 → 결과
+                  저장 → 게시글 연결”까지 이어지는 서비스 흐름을 완성
+                </li>
+                <li>
+                  외부 미디어 처리 서버와 백엔드의 책임을 분리한 구조 확보
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="tl-item">
+          <div class="tl-num">2</div>
+          <div class="tl-title">
+            Presigned Upload + SSE 기반 실시간 진행률 처리
+          </div>
+          <div class="dev-hero-shot reveal d2">
+            <img src="./image/opencv.png" alt="Holliverse Infra" />
+            <div class="dev-hero-caption">
+              업로드 권한 발급부터 결과 조회까지 하나의 jobId로 추적하는 흐름
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label bg">배경</span>
+            </div>
+            <div class="tl-card-body">
+              <p>
+                영상 업로드를 바로 OpenCV 서버로 보내는 구조에서는, 누가 어떤
+                권한으로 업로드하는지와 작업 ID를 어떻게 추적할지, 그리고 진행률
+                구독과 결과 조회를 job 단위로 어떻게 연결할지가 중요했습니다.
+              </p>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label ch">도전 과제</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  업로드 권한을 백엔드가 통제하면서도 OpenCV 서버로 직접
+                  업로드되게 해야 했음
+                </li>
+                <li>
+                  업로드 요청과 후속 처리 과정을 하나의 작업 단위로 추적할
+                  식별자가 필요했음
+                </li>
+                <li>처리 중인 진행률을 사용자에게 실시간으로 전달해야 했음</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label sol">해결 방안</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  API 서버가 파일 메타데이터를 검증한 뒤 Pre-signed URL과
+                  jobId를 발급하고, Redis에 memberId → jobId를 TTL과 함께 저장해
+                  업로드 요청을 작업 단위로 관리
+                  <a
+                    href="https://github.com/ShootPointer/ShootPointer_BE/pull/202"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #202</a
+                  >
+                </li>
+                <li>
+                  OpenCV 서버는 업로드 후 진행률을 Redis Pub/Sub에 발행하고, API
+                  서버는 이를 구독해 <code>/api/progress/subscribe</code> SSE로
+                  클라이언트에 중계
+                  <a
+                    href="https://github.com/ShootPointer/ShootPointer_BE/pull/202"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #202</a
+                  >
+                  <a
+                    href="https://github.com/ShootPointer/ShootPointer_BE/pull/245"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #245</a
+                  >
+                </li>
+                <li>
+                  처리 완료 후에는 같은 jobId 기준으로 방금 생성된 하이라이트만
+                  조회할 수 있도록
+                  <code>/api/highlight/latest</code> 흐름을 분리
+                  <a
+                    href="https://github.com/ShootPointer/ShootPointer_BE/pull/242"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #242</a
+                  >
+                  <a
+                    href="https://github.com/ShootPointer/ShootPointer_BE/pull/244"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #244</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="tl-card"
+            style="
+              border-color: rgba(0, 168, 107, 0.2);
+              background: var(--green-bg);
+            "
+          >
+            <div
+              class="tl-card-head"
+              style="
+                background: rgba(0, 168, 107, 0.08);
+                border-color: rgba(0, 168, 107, 0.15);
+              "
+            >
+              <span class="dot-label res" style="color: var(--green)"
+                >결과</span
+              >
+            </div>
+            <div class="tl-card-body">
+              <ul class="tl-result-list">
+                <li>
+                  업로드 권한, 작업 식별, 진행률 구독, 결과 조회가 하나의 job
+                  단위로 연결됨
+                </li>
+                <li>
+                  단순 파일 업로드가 아니라 추적 가능한 비동기 처리 흐름을 구축
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="tl-item">
+          <div class="tl-num">3</div>
+          <div class="tl-title">
+            좋아요 동시성 제어 · 10,000건 정합성 보장
+            <a
+              href="https://codekim3570.tistory.com/entry/Shoot-Pointer-%EC%A2%8B%EC%95%84%EC%9A%94-%EB%8F%99%EC%8B%9C%EC%84%B1-%EC%A0%9C%EC%96%B4%ED%95%98%EA%B8%B0"
+              class="tl-pr-link"
+              target="_blank"
+              >↗ 내용 자세히 보기</a
+            >
+          </div>
+          <div class="dev-hero-shot reveal d2">
+            <img src="./image/like.png" alt="Holliverse Infra" />
+            <div class="dev-hero-caption">
+              좋아요 동시성 문제
+              <a
+                href="https://github.com/ShootPointer/ShootPointer_BE/pull/69"
+                class="tl-pr-link"
+                target="_blank"
+                >↗ 내용 자세히 보기</a
+              >
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label bg">배경</span>
+            </div>
+            <div class="tl-card-body">
+              <p>
+                게시판 기능에서 좋아요 수를 Post 테이블에서 직접 관리하고 있었기
+                때문에, 다수 사용자가 동시에 요청을 보내면 좋아요 개수 정합성이
+                깨질 가능성이 있었습니다. 실제로 10,000건 동시 요청 테스트에서
+                기대값 10,000이 아니라 1,528만 반영되는 문제가 드러났습니다.
+              </p>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label ch">도전 과제</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  @Transactional만으로는 멀티스레드 환경 정합성을 보장할 수
+                  없었음
+                </li>
+                <li>
+                  100 / 1,000 / 10,000건 동시 요청 기준으로 다양한 방식의 성능과
+                  정확성을 비교해야 했음
+                </li>
+                <li>
+                  애플리케이션 레벨, DB 레벨, 외부 락 방식을 모두 검토해야 했음
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label sol">해결 방안</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  Atomic, Optimistic Lock, Pessimistic Lock, Redis Distributed
+                  Lock을 동일한 동시 요청 조건에서 비교할 수 있도록 테스트
+                  코드를 구성
+                  <a
+                    href="https://github.com/ShootPointer/ShootPointer_BE/pull/69"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #69</a
+                  >
+                </li>
+                <li>
+                  좋아요 엔티티 생성/삭제와 likeCnt 변경이 함께 일관성을
+                  유지하도록 비관적 락 중심의 구조로 정리
+                  <a
+                    href="https://github.com/ShootPointer/ShootPointer_BE/pull/72"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #72</a
+                  >
+                </li>
+                <li>
+                  단순히 가장 빠른 방법이 아니라, 실제 운영에서 정합성을
+                  우선하는 방식으로 최종 전략을 선택
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="tl-card"
+            style="
+              border-color: rgba(0, 168, 107, 0.2);
+              background: var(--green-bg);
+            "
+          >
+            <div
+              class="tl-card-head"
+              style="
+                background: rgba(0, 168, 107, 0.08);
+                border-color: rgba(0, 168, 107, 0.15);
+              "
+            >
+              <span class="dot-label res" style="color: var(--green)"
+                >결과</span
+              >
+            </div>
+            <div class="tl-card-body">
+              <ul class="tl-result-list">
+                <li>
+                  Increment Query, AtomicInteger, Optimistic Lock, Pessimistic
+                  Lock, Redis 분산락 등을 비교
+                </li>
+                <li>
+                  단순히 빠른 방식이 아니라 실제 운영 환경에서 정합성을 우선하는
+                  방식으로 선택
+                </li>
+                <li>최종 구현은 DB 비관적 락 중심으로 정리</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="tl-item">
+          <div class="tl-num">4</div>
+          <div class="tl-title">ElasticSearch 기반 검색 품질 개선</div>
+          <div class="dev-hero-shot reveal d2">
+            <img src="./image/es.png" alt="Holliverse Infra" />
+            <div class="dev-hero-caption">Elastic Search 검색 정확도</div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label bg">배경</span>
+            </div>
+            <div class="tl-card-body">
+              <p>
+                기존 검색은 제목·본문에 대한 SQL LIKE 기반 검색 후 최신순으로
+                정렬하는 구조였습니다. 이 방식은 검색 정확도 중심 정렬이 어렵고,
+                자동완성이나 검색 랭킹 같은 기능 확장에도 한계가 있었습니다.
+              </p>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label ch">도전 과제</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  제목과 본문 중 어디에 검색어가 있는지에 따라 중요도를 다르게
+                  반영해야 했음
+                </li>
+                <li>좋아요 수와 최신성까지 함께 고려한 정렬이 필요했음</li>
+                <li>
+                  단순 구현이 아니라 검색 정확도를 정량적으로 평가해야 했음
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label sol">해결 방안</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  Docker 기반 Elasticsearch + Kibana + Nori 형태소 분석기 구축
+                  <a
+                    href="https://codekim3570.tistory.com/entry/Shoot-Pointer-%EA%B2%8C%EC%8B%9C%EB%AC%BC-%EA%B2%80%EC%83%89-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-ElasticSearch-%EB%8F%84%EC%9E%85%EA%B8%B01-Docker%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-ElasticSearch-Kibana-%EA%B5%AC%EC%B6%95-%EB%B0%8F-%ED%85%8C%EC%8A%A4%ED%8A%B8-%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #113</a
+                  >
+                </li>
+
+                <li>
+                  제목/본문 가중치, 자동완성, 정렬 기준, NoOffset + Slice 기반
+                  조회를 적용해 검색 결과의 relevance를 개선
+                  <a
+                    class="tl-pr-link"
+                    target="_blank"
+                    href="https://codekim3570.tistory.com/entry/Shoot-Pointer-%EA%B2%8C%EC%8B%9C%EB%AC%BC-%EA%B2%80%EC%83%89-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-ElasticSearch-%EB%8F%84%EC%9E%85%EA%B8%B02-%EA%B2%80%EC%83%89%EC%9A%A9-%EC%BF%BC%EB%A6%AC-nDCGMRRMAP-%EC%84%B1%EB%8A%A5-%EC%A7%80%ED%91%9C-%EB%B9%84%EA%B5%90-5589%F0%9F%94%BA-%EC%A0%95%ED%99%95%EC%84%B1-%ED%96%A5%EC%83%81"
+                    >↗ 내용 자세히 보기</a
+                  >
+                  <a
+                    href="https://github.com/ShootPointer/ShootPointer_BE/pull/125"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #125</a
+                  >
+                  <a
+                    href="https://github.com/ShootPointer/ShootPointer_BE/pull/129"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #129</a
+                  >
+                </li>
+                <li>
+                  rank-aware 지표(MRR, MAP, nDCG@10)로 검색 품질 평가
+                  <a
+                    href="https://github.com/one-year-gap/api-server/pull/210"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #210</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="tl-card"
+            style="
+              border-color: rgba(0, 168, 107, 0.2);
+              background: var(--green-bg);
+            "
+          >
+            <div
+              class="tl-card-head"
+              style="
+                background: rgba(0, 168, 107, 0.08);
+                border-color: rgba(0, 168, 107, 0.15);
+              "
+            >
+              <span class="dot-label res" style="color: var(--green)"
+                >결과</span
+              >
+            </div>
+            <div class="tl-card-body">
+              <ul class="tl-result-list">
+                <li>nDCG@10 0.632 → 0.941</li>
+                <li>MRR@10 0.642 → 1.0</li>
+                <li>MAP@10 0.476 → 0.776</li>
+                <li>평균 정확도 55.89% 향상</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- 5 -->
+        <div class="tl-item">
+          <div class="tl-num">5</div>
+          <div class="tl-title">
+            CI/CD 배포 시간 4.5배 개선 · Docker 최적화<a
+              href="https://codekim3570.tistory.com/entry/Shoot-Pointer-CICD-%EB%B0%B0%ED%8F%AC-%EC%8B%9C%EA%B0%84-45%EB%B0%B0-%EB%B9%A0%EB%A5%B4%EA%B2%8C-%EC%8B%A4%ED%96%89%EC%8B%9C%ED%82%A4%EA%B8%B0-Docker-%EC%B5%9C%EC%A0%81%ED%99%94"
+              class="tl-pr-link"
+              target="_blank"
+              >↗ 내용 자세히 보기</a
+            >
+          </div>
+
+          <div class="dev-hero-shot reveal d2">
+            <img src="./image/deploy.png" alt="Holliverse Infra" />
+            <div class="dev-hero-caption">CI/CD Architecture</div>
+          </div>
+
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label bg">배경</span>
+            </div>
+            <div class="tl-card-body">
+              <p>
+                ShootPointer는 Jenkins + GitHub Actions + Webhook 기반 CI/CD를
+                운영 중이었고, Docker Compose 멀티 컨테이너 아키텍처로 배포하고
+                있었습니다. 그런데 배포마다 최소 5~6분, 최대 8~9분의 다운타임이
+                발생해 팀 테스트 흐름을 자주 막고 있었습니다.
+              </p>
+            </div>
+          </div>
+
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label ch">도전 과제</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>Docker build + deploy 구간이 가장 큰 병목이었음</li>
+                <li>
+                  컨테이너 삭제와 이미지 빌드가 느렸고, Docker가 디스크의 큰
+                  비율을 차지하고 있었음
+                </li>
+                <li>
+                  개발 단계에서 잦은 배포를 감당할 수 있도록 배포 시간을 줄여야
+                  했음
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label sol">해결 방안</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>Redis 컨테이너 제거 후 서버 외부 프로세스로 분리</li>
+                <li>OpenJDK slim 대신 alpine 계열 JRE 이미지 적용</li>
+                <li>멀티스테이지 빌드로 builder / running 이미지 분리</li>
+                <li>.dockerignore, BuildKit, Jenkins 최적화 적용</li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            class="tl-card"
+            style="
+              border-color: rgba(0, 168, 107, 0.2);
+              background: var(--green-bg);
+            "
+          >
+            <div
+              class="tl-card-head"
+              style="
+                background: rgba(0, 168, 107, 0.08);
+                border-color: rgba(0, 168, 107, 0.15);
+              "
+            >
+              <span class="dot-label res" style="color: var(--green)"
+                >결과</span
+              >
+            </div>
+            <div class="tl-card-body">
+              <ul class="tl-result-list">
+                <li>Docker Image 용량 6.5GB → 4.9GB (24.51% 절감)</li>
+                <li>Docker Containers 용량 2.1GB → 1.9GB(9.76% 절감)</li>
+                <li>최대 4.48배 빠른 배포 속도</li>
+                <li>최소 1.34배 빠른 배포 속도</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- NEXT PROJECT NAV -->
+    <div
+      style="
+        position: relative;
+        z-index: 1;
+        border-bottom: 1px solid var(--border);
+      "
+    >
+      <div
+        style="
+          max-width: 1100px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        "
+      >
+        <div
+          style="
+            padding: 2.5rem 2rem;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            color: var(--ink3);
+          "
+        >
+          <span style="font-family: var(--mono); font-size: 0.65rem"
+            >← 이전 프로젝트</span
+          >
+          <span
+            style="
+              font-family: var(--display);
+              font-size: 1.5rem;
+              color: var(--bg3);
+            "
+            >없음</span
+          >
+        </div>
+        <a
+          href="project-chat-server.html"
+          style="
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+            transition: background 0.2s;
+            text-decoration: none;
+            color: var(--ink);
+          "
+          onmouseover="this.style.background = 'var(--paper)'"
+          onmouseout="this.style.background = ''"
+        >
+          <span
+            style="
+              font-family: var(--mono);
+              font-size: 0.65rem;
+              color: var(--ink3);
+            "
+            >다음 프로젝트 →</span
+          >
+          <span style="font-family: var(--display); font-size: 1.8rem"
+            >CHAT SERVER</span
+          >
+        </a>
+      </div>
+    </div>
+
+    <footer>
+      <a
+        href="portfolio.html"
+        style="font-family: var(--mono); font-size: 0.7rem; color: var(--ink3)"
+        >← 포트폴리오로 돌아가기</a
+      >
+      <div><span class="dot-live"></span>KIM.DO YEON · Backend Engineer</div>
+      <span>© 2025 KIM.DEV</span>
+    </footer>
+
+    <script>
+      (function () {
+        const canvas = document.getElementById("bg-canvas"),
+          ctx = canvas.getContext("2d");
+        const symbols = [
+          "{}",
+          "[]",
+          "()",
+          "//",
+          "&&",
+          "!=",
+          "->",
+          "=>",
+          "fn",
+          "db",
+          "if",
+          "try",
+          "200",
+          "GET",
+          "POST",
+          "SQL",
+          "JWT",
+          "API",
+          "TTL",
+        ];
+        let particles = [],
+          W,
+          H;
+        function resize() {
+          W = canvas.width = window.innerWidth;
+          H = canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener("resize", resize);
+        function mk() {
+          return {
+            x: Math.random() * W,
+            y: H + 20,
+            sym: symbols[Math.floor(Math.random() * symbols.length)],
+            speed: 0.2 + Math.random() * 0.35,
+            opacity: 0.05 + Math.random() * 0.08,
+            drift: (Math.random() - 0.5) * 0.25,
+          };
+        }
+        for (let i = 0; i < 50; i++) {
+          const p = mk();
+          p.y = Math.random() * H;
+          particles.push(p);
+        }
+        function draw() {
+          ctx.clearRect(0, 0, W, H);
+          ctx.font = '13px "DM Mono",monospace';
+          particles.forEach((p) => {
+            ctx.globalAlpha = p.opacity;
+            ctx.fillStyle = "#1A3A2A";
+            ctx.fillText(p.sym, p.x, p.y);
+            p.y -= p.speed;
+            p.x += p.drift;
+            if (p.y < -30) Object.assign(p, mk());
+          });
+          ctx.globalAlpha = 1;
+          if (Math.random() < 0.025) particles.push(mk());
+          if (particles.length > 80) particles.shift();
+          requestAnimationFrame(draw);
+        }
+        draw();
+      })();
+
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("in");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
+
+      /* contrib bar animate */
+      const barObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target
+                .querySelectorAll(".contrib-fill[data-width]")
+                .forEach((bar) => {
+                  setTimeout(() => {
+                    bar.style.width = bar.dataset.width;
+                  }, 150);
+                });
+              barObs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.3 },
+      );
+      document
+        .querySelectorAll(".contrib-bar-wrap")
+        .forEach((el) => barObs.observe(el));
+    </script>
+  </body>
+</html>

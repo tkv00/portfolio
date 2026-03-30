@@ -1045,11 +1045,16 @@
             <div class="tl-card-body">
               <ul>
                 <li>
-                  콘솔 기반의 인프라는 구성 순서와 설정 이유가 명확하지 않음
+                  팀원들 모두 도메인 모델링 경험이 많지 않아 공통 언어와 설계
+                  기준을 먼저 맞춰야 했음
                 </li>
                 <li>
-                  새로운 IaC 도구를 도입하더라도 직접 이해하고 검증 가능한
-                  방식이 필요했음
+                  청구서 발송처럼 하나의 흐름처럼 보여도, 정산·발송 정책·실제
+                  발송은 사용하는 언어와 상태, 실패 모델이 서로 달랐음
+                </li>
+                <li>
+                  도메인 규칙이 서비스 레이어의 if문이나 인프라 코드에 흩어지지
+                  않도록 경계와 모델 기준을 명확히 잡아야 했음
                 </li>
               </ul>
             </div>
@@ -1061,7 +1066,8 @@
             <div class="tl-card-body">
               <ul>
                 <li>
-                  인프라를 수작업이 아닌 IaC 방식으로 관리하도록 전환
+                  Event Storming으로 반드시 기록해야 하는 상태, 외부 의존 실패
+                  지점, 중복되면 안 되는 행위를 먼저 정리
                   <a
                     href="https://codekim3570.tistory.com/entry/Holliverse-Infra-%EA%B5%AC%EC%B6%95%EA%B8%B01-%EB%82%B4%EA%B0%80-AWS-CDK%EB%A5%BC-%EC%84%A0%ED%83%9D%ED%95%9C-%EC%9D%B4%EC%9C%A0"
                     class="tl-pr-link"

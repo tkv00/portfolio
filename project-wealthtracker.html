@@ -1,0 +1,1573 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TR1L // KIM.DO YEON</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --bg: #f5f3ee;
+        --bg2: #eceae3;
+        --bg3: #e0ddd4;
+        --paper: #fafaf7;
+        --ink: #111110;
+        --ink2: #3d3c39;
+        --ink3: #7a7874;
+        --green: #00a86b;
+        --green-bg: #e6f7f0;
+        --blue: #0057ff;
+        --blue-bg: #e6edff;
+        --red: #e8321a;
+        --amber: #d97706;
+        --border: rgba(0, 0, 0, 0.09);
+        --mono: "DM Mono", monospace;
+        --sans: "Instrument Sans", sans-serif;
+        --display: "Bebas Neue", sans-serif;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--sans);
+        background: var(--bg);
+        color: var(--ink);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      #bg-canvas {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.3;
+      }
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999;
+        height: 52px;
+        background: rgba(245, 243, 238, 0.92);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        padding: 0 2rem;
+        gap: 1.5rem;
+      }
+      .nav-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        color: var(--ink3);
+        transition: color 0.15s;
+      }
+      .nav-back:hover {
+        color: var(--ink);
+      }
+      .nav-back:hover svg {
+        transform: translateX(-2px);
+      }
+      .nav-back svg {
+        transition: transform 0.15s;
+      }
+      .nav-crumb {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        color: var(--ink3);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .nav-crumb .sep {
+        opacity: 0.4;
+      }
+      .nav-crumb .current {
+        color: var(--ink);
+      }
+      .nav-actions {
+        margin-left: auto;
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+      }
+      .nav-tag {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        background: var(--blue-bg);
+        color: var(--blue);
+        border: 1px solid rgba(0, 87, 255, 0.15);
+        padding: 0.25rem 0.65rem;
+        border-radius: 3px;
+      }
+      .btn-sm {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        background: var(--ink);
+        color: #fff;
+        padding: 0.4rem 0.9rem;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+      }
+      .btn-sm:hover {
+        background: var(--blue);
+        transform: translateY(-1px);
+      }
+
+      /* HERO */
+      .proj-hero {
+        position: relative;
+        z-index: 1;
+        padding-top: 52px;
+        min-height: 62vh;
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        border-bottom: 1px solid var(--border);
+      }
+      .proj-hero-left {
+        padding: 4rem 3rem 4rem 3.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        border-right: 1px solid var(--border);
+      }
+      .proj-type-badge {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--ink3);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .proj-type-badge::before {
+        content: "//";
+        color: var(--green);
+      }
+      .proj-title {
+        font-family: var(--display);
+        font-size: clamp(5rem, 10vw, 9rem);
+        line-height: 0.88;
+        letter-spacing: 0.01em;
+        margin-bottom: 1.5rem;
+      }
+      .proj-title .t-blue {
+        color: var(--blue);
+      }
+      .proj-tagline {
+        font-size: 1.05rem;
+        line-height: 1.75;
+        color: var(--ink2);
+        max-width: 540px;
+        margin-bottom: 2rem;
+      }
+      .proj-links-hero {
+        display: flex;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+      .phl {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.55rem 1rem;
+        border-radius: 4px;
+        transition: all 0.15s;
+      }
+      .phl-solid {
+        background: var(--ink);
+        color: #fff;
+      }
+      .phl-solid:hover {
+        background: var(--blue);
+        transform: translateY(-1px);
+      }
+      .phl-ghost {
+        border: 1px solid var(--border);
+        color: var(--ink2);
+      }
+      .phl-ghost:hover {
+        border-color: var(--ink);
+        transform: translateY(-1px);
+      }
+
+      .proj-hero-right {
+        padding: 4rem 2.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .meta-block {
+        padding: 1.25rem 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .meta-block:first-child {
+        border-top: 1px solid var(--border);
+      }
+      .meta-lbl {
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        color: var(--ink3);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 0.4rem;
+      }
+      .meta-val {
+        font-size: 0.88rem;
+        color: var(--ink2);
+        line-height: 1.5;
+      }
+      .meta-stat-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        overflow: hidden;
+        margin-top: 1.5rem;
+      }
+      .meta-stat {
+        background: var(--paper);
+        padding: 1rem 0.85rem;
+        transition: background 0.2s;
+      }
+      .meta-stat:hover {
+        background: var(--bg2);
+      }
+      .meta-stat-val {
+        font-family: var(--mono);
+        font-size: 1.15rem;
+        font-weight: 500;
+        color: var(--blue);
+        margin-bottom: 0.2rem;
+      }
+      .meta-stat-lbl {
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        color: var(--ink3);
+      }
+      .stack-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        margin-top: 0.75rem;
+      }
+      .stag {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        padding: 0.22rem 0.55rem;
+        border-radius: 3px;
+        border: 1px solid transparent;
+        transition: all 0.15s;
+      }
+      .stag:hover {
+        transform: translateY(-1px);
+      }
+      .stag.b {
+        background: var(--blue-bg);
+        color: var(--blue);
+        border-color: rgba(0, 87, 255, 0.15);
+      }
+      .stag.g {
+        background: var(--green-bg);
+        color: var(--green);
+        border-color: rgba(0, 168, 107, 0.15);
+      }
+      .stag.n {
+        background: var(--bg2);
+        color: var(--ink2);
+        border-color: var(--border);
+      }
+      .stag.a {
+        background: #fff7ed;
+        color: var(--amber);
+        border-color: rgba(217, 119, 6, 0.2);
+      }
+      .stag.r {
+        background: #fef2f2;
+        color: var(--red);
+        border-color: rgba(232, 50, 26, 0.15);
+      }
+
+      .section {
+        position: relative;
+        z-index: 1;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 5rem 2rem;
+      }
+      .section-divider {
+        height: 1px;
+        background: var(--border);
+        position: relative;
+        z-index: 1;
+      }
+      .sec-label {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--ink3);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+      }
+      .sec-label::before {
+        content: "//";
+        color: var(--green);
+      }
+      .sec-label::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+      h2.big {
+        font-family: var(--display);
+        font-size: clamp(3rem, 5vw, 5rem);
+        line-height: 0.95;
+        margin-bottom: 2rem;
+      }
+
+      /* KPI BANNER */
+      .kpi-banner {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 3rem;
+      }
+      .kpi-cell {
+        background: var(--paper);
+        padding: 1.5rem 1.25rem;
+        transition: background 0.2s;
+        cursor: default;
+      }
+      .kpi-cell:hover {
+        background: var(--bg);
+      }
+      .kpi-val {
+        font-family: var(--display);
+        font-size: 2.2rem;
+        color: var(--blue);
+        line-height: 1;
+        margin-bottom: 0.4rem;
+      }
+      .kpi-val.green {
+        color: var(--green);
+      }
+      .kpi-lbl {
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        color: var(--ink3);
+      }
+
+      /* OVERVIEW */
+      .overview-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      .ov-cell {
+        background: var(--paper);
+        padding: 1.75rem 1.5rem;
+        transition: background 0.2s;
+      }
+      .ov-cell:hover {
+        background: var(--bg);
+      }
+      .ov-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+      .ov-title {
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+      }
+      .ov-body {
+        font-size: 0.87rem;
+        color: var(--ink2);
+        line-height: 1.68;
+      }
+
+      /* TIMELINE */
+      .timeline {
+        position: relative;
+      }
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: var(--border);
+      }
+      .tl-item {
+        position: relative;
+        padding: 0 0 3.5rem 64px;
+      }
+      .tl-item:last-child {
+        padding-bottom: 0;
+      }
+      .tl-num {
+        position: absolute;
+        left: 0;
+        top: 2px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--paper);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        font-weight: 500;
+        color: var(--blue);
+        z-index: 1;
+      }
+      .tl-title {
+        font-family: var(--display);
+        font-size: 1.6rem;
+        letter-spacing: 0.01em;
+        margin-bottom: 1.25rem;
+      }
+      .tl-card {
+        background: var(--paper);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 0.75rem;
+        transition: box-shadow 0.2s;
+      }
+      .tl-card:hover {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      }
+      .tl-card-head {
+        padding: 0.75rem 1.25rem;
+        background: var(--bg2);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--ink3);
+      }
+      .dot-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+      .dot-label::before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+      }
+      .dot-label.bg {
+        color: #4d8dff;
+      }
+      .dot-label.bg::before {
+        background: #4d8dff;
+      }
+      .dot-label.ch {
+        color: var(--amber);
+      }
+      .dot-label.ch::before {
+        background: var(--amber);
+      }
+      .dot-label.sol {
+        color: var(--green);
+      }
+      .dot-label.sol::before {
+        background: var(--green);
+      }
+      .dot-label.res {
+        color: var(--blue);
+      }
+      .dot-label.res::before {
+        background: var(--blue);
+      }
+      .tl-card-body {
+        padding: 1.1rem 1.25rem;
+      }
+      .tl-card-body p {
+        font-size: 0.88rem;
+        color: var(--ink2);
+        line-height: 1.7;
+      }
+      .tl-card-body ul {
+        list-style: none;
+        padding: 0;
+      }
+      .tl-card-body ul li {
+        font-size: 0.88rem;
+        color: var(--ink2);
+        line-height: 1.7;
+        padding: 0.2rem 0 0.2rem 1.1rem;
+        position: relative;
+      }
+      .tl-card-body ul li::before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        color: var(--green);
+        font-size: 0.75rem;
+      }
+      .tl-result-list {
+        list-style: none;
+        padding: 0;
+      }
+      .tl-result-list li {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--ink);
+        padding: 0.3rem 0 0.3rem 1.4rem;
+        position: relative;
+        line-height: 1.6;
+      }
+      .tl-result-list li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: var(--green);
+        font-weight: 700;
+      }
+      .tl-pr-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--blue);
+        margin-left: 0.5rem;
+        transition: opacity 0.15s;
+      }
+      .tl-pr-link:hover {
+        opacity: 0.7;
+      }
+      .dev-hero-shot {
+        margin: 0 0 2.2rem;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--paper);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+
+      .dev-hero-shot:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+      }
+
+      .dev-hero-shot img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+
+      .dev-hero-caption {
+        padding: 0.85rem 1rem;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--ink3);
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+      }
+      /* CONTRIB */
+      .contrib-bar-wrap {
+        margin: 1.5rem 0;
+      }
+      .contrib-item {
+        margin-bottom: 1rem;
+      }
+      .contrib-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        margin-bottom: 0.4rem;
+      }
+      .contrib-label {
+        color: var(--ink2);
+      }
+      .contrib-pct {
+        color: var(--blue);
+        font-weight: 500;
+      }
+      .contrib-bar {
+        height: 4px;
+        background: var(--bg3);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .contrib-fill {
+        height: 100%;
+        border-radius: 2px;
+        background: var(--blue);
+        transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .contrib-fill.green {
+        background: var(--green);
+      }
+      .contrib-fill.amber {
+        background: var(--amber);
+      }
+
+      footer {
+        position: relative;
+        z-index: 1;
+        border-top: 1px solid var(--border);
+        padding: 1.5rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--ink3);
+      }
+      .dot-live {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--green);
+        display: inline-block;
+        margin-right: 0.4rem;
+        animation: pulse-dot 2s ease-in-out infinite;
+      }
+      @keyframes pulse-dot {
+        0%,
+        100% {
+          box-shadow: 0 0 0 0 rgba(0, 168, 107, 0.5);
+        }
+        50% {
+          box-shadow: 0 0 0 5px rgba(0, 168, 107, 0);
+        }
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(16px);
+        transition:
+          opacity 0.5s ease,
+          transform 0.5s ease;
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: none;
+      }
+      .d1 {
+        transition-delay: 0.06s;
+      }
+      .d2 {
+        transition-delay: 0.12s;
+      }
+      .d3 {
+        transition-delay: 0.18s;
+      }
+
+      @media (max-width: 900px) {
+        .proj-hero {
+          grid-template-columns: 1fr;
+        }
+        .proj-hero-right {
+          border-top: 1px solid var(--border);
+        }
+        .overview-grid {
+          grid-template-columns: 1fr;
+        }
+        .kpi-banner {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 600px) {
+        .proj-title {
+          font-size: clamp(4rem, 18vw, 6rem);
+        }
+        .tl-item {
+          padding-left: 52px;
+        }
+        .kpi-banner {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="bg-canvas"></canvas>
+
+    <nav>
+      <a href="index.html" class="nav-back">
+        <svg
+          width="14"
+          height="14"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.2"
+          viewBox="0 0 24 24"
+        >
+          <path d="M19 12H5M12 5l-7 7 7 7" />
+        </svg>
+        포트폴리오로
+      </a>
+      <div class="nav-crumb">
+        <span class="sep">/</span><span>Projects</span
+        ><span class="sep">/</span>
+        <span class="current">WEALTH TRACKER</span>
+      </div>
+      <div class="nav-actions">
+        <span class="nav-tag">TEAM PROJECT</span>
+        <a
+          href="https://github.com/Team-TR1L/TR1L-BE"
+          class="btn-sm"
+          target="_blank"
+        >
+          <svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+            />
+          </svg>
+          GitHub
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <div class="proj-hero">
+      <div class="proj-hero-left">
+        <div class="proj-type-badge">Team Project · 7인 팀</div>
+        <h1 class="proj-title">
+          <br />WEALTH<span class="t-blue">TRACKER</span>
+        </h1>
+        <p class="proj-tagline">
+          사용자의 소비와 저축 흐름을 기록에만 머무르지 않고, 목표 관리, 예정
+          결제 추적, 카테고리별 예산 통제, AI 기반 주간 피드백까지 확장해 스스로
+          재무 상태를 해석하고 관리할 수 있도록 만든 개인 재무 관리 시스템.
+        </p>
+        <div class="proj-links-hero">
+          <a
+            href="https://github.com/software-project-yu/WealthTracker-BE"
+            class="phl phl-solid"
+            target="_blank"
+          >
+            <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
+              />
+            </svg>
+            GitHub 바로가기
+          </a>
+        </div>
+      </div>
+
+      <div class="proj-hero-right">
+        <div class="meta-block">
+          <div class="meta-lbl">기간</div>
+          <div class="meta-val">2024.09 ~ 2024.12</div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-lbl">팀 구성</div>
+          <div class="meta-val">7인 팀 · Backend &amp; 팀장</div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-lbl">기여도</div>
+          <div class="meta-val">
+            전체 20% · 백엔드 45% · DevOps 100% · 기획 20%
+          </div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-lbl">Tech Stack</div>
+          <div class="stack-pills">
+            <span class="stag b">Spring Boot</span>
+            <span class="stag b">Spring Security</span>
+            <span class="stag b">Spring Data JPA</span>
+            <span class="stag b">Java 17</span>
+            <span class="stag g">PostgreSQL</span>
+            <span class="stag n">Github Actions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- KPI BANNER -->
+    <div
+      style="
+        position: relative;
+        z-index: 1;
+        border-bottom: 1px solid var(--border);
+      "
+    >
+      <div
+        class="kpi-banner"
+        style="
+          max-width: 1100px;
+          margin: 0 auto;
+          border-left: none;
+          border-right: none;
+          border-radius: 0;
+          border-top: none;
+        "
+      >
+        <div class="kpi-cell">
+          <div class="kpi-val green">4004ms → 108.2ms</div>
+          <div class="kpi-lbl">평균 응답 시간 개선</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-val">11000ms → 480ms</div>
+          <div class="kpi-lbl">P95 응답 시간 개선</div>
+        </div>
+
+        <div class="kpi-cell">
+          <div class="kpi-val green">Named LOCK</div>
+          <div class="kpi-lbl">GET_LOCK 기반 커스텀 카테고리 정합성 제어</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-val green">1M</div>
+          <div class="kpi-lbl">부하 테스트</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div class="section">
+      <div class="sec-label reveal">Overview</div>
+      <h2 class="big reveal d1">WHAT &amp;<br />WHY</h2>
+      <div class="overview-grid reveal d2">
+        <div class="ov-cell">
+          <div class="ov-icon">📌</div>
+          <div class="ov-title">기획 배경</div>
+          <div class="ov-body">
+            <strong>WealthTracker</strong>는 사용자의 소비와 저축 흐름을
+            기록하고, 그 데이터를 바탕으로 예산 관리, 목표 저축, 예정 결제 추적,
+            주간 소비 피드백까지 연결하는 개인 재무 관리 시스템이다. 문제는
+            단순히 거래를 저장하는 것이 아니라, 기록이 비교와 계획, 그리고 실제
+            행동 변화로 이어지도록 시스템 전체 흐름을 설계해야 한다는 점이었다.
+          </div>
+        </div>
+        <div class="ov-cell">
+          <div class="ov-icon">🎯</div>
+          <div class="ov-title">프로젝트 목표</div>
+          <div class="ov-body">
+            이메일 인증과 <strong>JWT 기반 사용자 식별</strong>을 바탕으로,
+            지출·수입·저축 목표·카테고리 예산·예정 결제를 하나의 문맥으로
+            연결하고, 사용자가 자신의 재무 상태를 숫자뿐 아니라
+            <strong>비교 가능한 집계와 AI 피드백</strong>으로 해석할 수 있는
+            구조를 만드는 것이 목표였다. 특히 기능 나열이 아니라 데이터 저장,
+            정합성 제어, 집계, 재사용, 운영 흐름까지 자연스럽게 이어지는 서비스
+            설계에 집중했다.
+          </div>
+        </div>
+        <div class="ov-cell">
+          <div class="ov-icon">⚡</div>
+          <div class="ov-title">주요 기능</div>
+          <div class="ov-body">
+            ✔ 이메일 인증 + JWT 로그인<br />
+            ✔ 지출 / 수입 기록 및 통합 거래 조회<br />
+            ✔ 저축 목표 / 카테고리 예산 / 예정 결제 관리<br />
+            ✔ Gemini 기반 주간 소비 피드백<br />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- ROLE -->
+    <div class="section">
+      <div class="sec-label reveal">Role</div>
+      <h2 class="big reveal d1">MY<br />ROLE</h2>
+      <div class="reveal d2">
+        <p
+          style="
+            font-size: 0.95rem;
+            color: var(--ink2);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            max-width: 600px;
+          "
+        >
+          <strong>Backend Engineer</strong>와 <strong>팀장</strong>으로
+          참여했고, 지출/수입 도메인, Gemini 기반 주간 피드백, 운영/배포 흐름,
+          오류 코드 정리를 주도적으로 맡았습니다.
+        </p>
+        <div class="contrib-bar-wrap">
+          <div class="contrib-item">
+            <div class="contrib-header">
+              <span class="contrib-label">기획</span
+              ><span class="contrib-pct">30%</span>
+            </div>
+            <div class="contrib-bar">
+              <div
+                class="contrib-fill"
+                style="width: 0%"
+                data-width="30%"
+              ></div>
+            </div>
+          </div>
+          <div class="contrib-item">
+            <div class="contrib-header">
+              <span class="contrib-label">백엔드 개발</span
+              ><span class="contrib-pct">45%</span>
+            </div>
+            <div class="contrib-bar">
+              <div
+                class="contrib-fill green"
+                style="width: 0%"
+                data-width="45%"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <details
+          style="margin-top: 1rem; font-size: 0.85rem; color: var(--ink3)"
+        >
+          <summary
+            style="
+              cursor: pointer;
+              color: var(--ink2);
+              font-weight: 500;
+              list-style: none;
+            "
+          >
+            ▸ 세부 기여 내역 보기
+          </summary>
+          <ul
+            style="
+              margin-top: 0.75rem;
+              padding-left: 1.25rem;
+              line-height: 1.9;
+              color: var(--ink2);
+            "
+          >
+            <li>지출 CRUD, 커스텀 카테고리 처리, 월간/주차별 집계 응답 설계</li>
+            <li>수입 CRUD 및 월간 통합 거래 흐름의 데이터 축 구성</li>
+            <li>Gemini 기반 주간 피드백 생성, 재사용 전략, 스케줄러 정리</li>
+            <li>
+              GitHub Actions + CodeDeploy + EC2 배포 흐름 설명 가능 수준으로
+              구축
+            </li>
+          </ul>
+        </details>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- DEV DETAILS -->
+    <div class="section">
+      <div class="sec-label reveal">Dev Details</div>
+      <h2 class="big reveal d1">HOW I<br />BUILT IT</h2>
+      <div class="timeline reveal d2">
+        <!-- 1 -->
+        <div class="tl-item">
+          <div class="tl-num">1</div>
+          <div class="tl-title">
+            부하 테스트 기반 병목 분석 · DB/SQL 성능 튜닝
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label bg">배경</span>
+            </div>
+            <div class="tl-card-body">
+              <p>
+                <strong>/api/expend/graph</strong>는 지출 그래프를 그리기 위한
+                핵심 조회 API였고, 1000명 동시 요청과 100만 건 더미 데이터 기준
+                부하 테스트에서
+                <strong>평균 4004ms, P95 11000ms</strong> 수준까지 응답이
+                지연되고 있었습니다. Locust, Prometheus, Grafana를 통해 실제
+                병목 구간을 먼저 확인했습니다.
+              </p>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label ch">도전 과제</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  유저 수 증가 구간에서 Hikari 커넥션 풀 대기 수가 급격히 증가
+                </li>
+                <li>이번 달 / 저번 달 데이터를 각각 조회하는 중복 쿼리 구조</li>
+                <li>주차별 DTO를 서비스 계층에서 다시 조립하는 비효율 존재</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label sol">해결 방안</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  HikariCP 풀 크기를 로컬 코어 수와 DB 최대 연결 수 기준으로
+                  조정
+                  <a
+                    href="https://codekim3570.tistory.com/entry/WealthTracker-%EC%84%B1%EB%8A%A5%EA%B0%9C%EC%84%A0-%EC%9D%B4%EC%95%BC%EA%B8%B02-DB-%EC%BB%A4%EB%84%A5%EC%85%98-%ED%92%80-%EC%84%A4%EC%A0%95"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ 내용 자세히 보기</a
+                  >
+                </li>
+                <li>
+                  UNION ALL 기반 Native Query로 이번 달 / 저번 달 집계를 한 번에
+                  조회
+                </li>
+                <li>
+                  expendDate + userId 복합 인덱스 적용으로 조회 경로 단순화
+                  <a
+                    href="https://codekim3570.tistory.com/entry/%EC%84%A0%ED%83%9D-%EC%95%88%EB%90%A8-WealthTracker-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-%EC%9D%B4%EC%95%BC%EA%B8%B0-3SQL-%EC%BF%BC%EB%A6%AC-%ED%8A%9C%EB%8B%9D"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ 내용 자세히 보기</a
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="tl-card"
+            style="
+              border-color: rgba(0, 168, 107, 0.2);
+              background: var(--green-bg);
+            "
+          >
+            <div
+              class="tl-card-head"
+              style="
+                background: rgba(0, 168, 107, 0.08);
+                border-color: rgba(0, 168, 107, 0.15);
+              "
+            >
+              <span class="dot-label res" style="color: var(--green)"
+                >결과</span
+              >
+            </div>
+            <div class="tl-card-body">
+              <ul class="tl-result-list">
+                <li>평균 응답 시간: 4004ms → 722.59ms → 642.51ms</li>
+                <li>P95 응답 시간: 11000ms → 2200ms → 2100ms</li>
+                <li>
+                  캐시 적용 전 단계에서 DB 병목과 쿼리 구조를 먼저 정리하는 1차
+                  개선을 완료했습니다.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="tl-item">
+          <div class="tl-num">2</div>
+          <div class="tl-title">Caffeine 캐시 적용 · 최종 응답 시간 개선</div>
+          <div class="dev-hero-shot reveal d2">
+            <img src="./image/cache.png" alt="Holliverse Infra" />
+            <div class="dev-hero-caption">cache 적용 Diagram</div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label bg">배경</span>
+            </div>
+            <div class="tl-card-body">
+              <p>
+                쿼리와 커넥션 풀 튜닝 이후에도
+                <strong>/api/expend/graph</strong>는 조회 빈도가 높은 API였기
+                때문에, DB를 매번 타지 않도록 캐시를 적용하는 것이 가장 큰 개선
+                포인트로 남아 있었습니다.
+              </p>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label ch">도전 과제</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  조회 비율이 높지만 지출 작성·수정·삭제 시 stale data를
+                  방지해야 했음
+                </li>
+                <li>
+                  Redis를 추가로 붙이는 것은 당시 상황에서는 과한 선택이었음
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label sol"
+                >해결 방안<a
+                  href="https://codekim3570.tistory.com/entry/WealthTracker-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-%EC%9D%B4%EC%95%BC%EA%B8%B0-4004ms-1082ms-3Caffeine-%EC%BA%90%EC%8B%9C-%EC%A0%81%EC%9A%A9"
+                  class="tl-pr-link"
+                  target="_blank"
+                  >↗ 내용 자세히 보기</a
+                ></span
+              >
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>Spring Cache + Caffeine 적용</li>
+                <li>JWT token 기준으로 사용자별 캐시 키 분리</li>
+                <li>
+                  작성 / 수정 / 삭제 API에서 @CacheEvict로 해당 사용자 캐시
+                  무효화
+                </li>
+                <li>10분 TTL 설정으로 불필요한 캐시 자동 정리</li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="tl-card"
+            style="
+              border-color: rgba(0, 168, 107, 0.2);
+              background: var(--green-bg);
+            "
+          >
+            <div
+              class="tl-card-head"
+              style="
+                background: rgba(0, 168, 107, 0.08);
+                border-color: rgba(0, 168, 107, 0.15);
+              "
+            >
+              <span class="dot-label res" style="color: var(--green)"
+                >결과</span
+              >
+            </div>
+            <div class="tl-card-body">
+              <ul class="tl-result-list">
+                <li>평균 응답 시간: 642.51ms → 108.2ms</li>
+                <li>P95 응답 시간: 2100ms → 480ms</li>
+                <li>
+                  최종적으로 최초 대비 <strong>평균 4004ms → 108.2ms</strong>,
+                  <strong>P95 11000ms → 480ms</strong>를 달성했고, 목표였던 평균
+                  500ms / P95 1000ms도 초과 달성했습니다.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="tl-item">
+          <div class="tl-num">3</div>
+          <div class="tl-title">MySQL Named Lock 기반 카테고리 동시성 제어</div>
+          <div class="dev-hero-shot reveal d2">
+            <img src="./image/namedlock.png" alt="Holliverse Infra" />
+            <div class="dev-hero-caption">Named Lock Sequence Diagram</div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label bg">배경</span>
+            </div>
+            <div class="tl-card-body">
+              <p>
+                사용자가 새로운 지출 카테고리를 직접 추가할 수 있었는데, 여러
+                사용자가 동시에 같은 이름의 custom category를 등록하면 중복
+                insert가 발생하는 <strong>Race Condition</strong>이
+                존재했습니다.
+              </p>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label ch">도전 과제</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>같은 카테고리명에 대한 동시 insert 경쟁 발생</li>
+                <li>
+                  @Transactional만으로는 멀티스레드 환경에서 정합성 보장 불가
+                </li>
+                <li>
+                  Redis, Zookeeper 같은 외부 락은 당시 프로젝트 규모 대비 비용이
+                  컸음
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label sol">해결 방안</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>MySQL GET_LOCK / RELEASE_LOCK 기반 Named Lock 선택</li>
+                <li>
+                  카테고리명을 lock key로 사용해 해당 이름에 대해서만 직렬화
+                </li>
+                <li>
+                  lock 획득 후 findByCustomCategoryName → 없으면 save 흐름으로
+                  getOrCreate 구현
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="tl-card"
+            style="
+              border-color: rgba(0, 168, 107, 0.2);
+              background: var(--green-bg);
+            "
+          >
+            <div
+              class="tl-card-head"
+              style="
+                background: rgba(0, 168, 107, 0.08);
+                border-color: rgba(0, 168, 107, 0.15);
+              "
+            >
+              <span class="dot-label res" style="color: var(--green)"
+                >결과</span
+              >
+            </div>
+            <div class="tl-card-body">
+              <ul class="tl-result-list">
+                <li>
+                  동시에 같은 카테고리명을 등록해도 최종 생성 객체 수를 1개로
+                  제어
+                </li>
+                <li>
+                  외부 인프라 추가 없이, 기존 MySQL만으로 동시성 문제를 해결하는
+                  구조를 만들었습니다.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="tl-item">
+          <div class="tl-num">4</div>
+          <div class="tl-title">Gemini 기반 주간 소비 피드백과 재사용 전략</div>
+          <div class="dev-hero-shot reveal d2">
+            <img src="./image/3.png" alt="Holliverse Infra" />
+            <div class="dev-hero-caption">AI 피드백 Diagram</div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label bg">배경</span>
+            </div>
+            <div class="tl-card-body">
+              <p>
+                숫자와 그래프만으로는 사용자가 자신의 소비 패턴을 빠르게
+                해석하기 어렵다고 판단했습니다. 그래서 이번 주 소비를 자연어로
+                요약해 주는 피드백 기능을 추가해, 사용자가 데이터를 단순히
+                조회하는 수준을 넘어 실제로 이해하고 행동으로 연결할 수 있도록
+                만들고자 했습니다.
+              </p>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label ch">도전 과제</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  카테고리별 주간 지출 데이터를 AI가 해석할 수 있는 입력 형태로
+                  가공해야 했음
+                </li>
+                <li>
+                  같은 주간 데이터에 대해 반복 요청이 들어올 때마다 외부 AI를
+                  다시 호출하면 비용과 응답 시간이 불필요하게 증가할 수 있었음
+                </li>
+                <li>
+                  사용자가 지출을 수정하거나 삭제한 경우, 기존 피드백이 더 이상
+                  최신 데이터와 일치하지 않을 수 있었음
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label sol">해결 방안</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  식비, 교통, 쇼핑 등 카테고리별 주간 지출 합계를 기준으로
+                  Gemini용 프롬프트를 직접 구성
+                </li>
+                <li>
+                  같은 주간에 대해 이미 생성된 피드백이 있고, 이후 지출 데이터에
+                  변경이 없다면 기존 피드백을 재사용하도록 설계
+                </li>
+                <li>
+                  최신 지출 생성·수정 시각과 피드백 생성 시각을 비교해, 필요한
+                  경우에만 AI를 다시 호출하도록 처리
+                </li>
+                <li>
+                  @Scheduled를 이용해 오래된 피드백을 주기적으로 정리하고, 주간
+                  단위 라이프사이클을 유지
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            class="tl-card"
+            style="
+              border-color: rgba(0, 168, 107, 0.2);
+              background: var(--green-bg);
+            "
+          >
+            <div
+              class="tl-card-head"
+              style="
+                background: rgba(0, 168, 107, 0.08);
+                border-color: rgba(0, 168, 107, 0.15);
+              "
+            >
+              <span class="dot-label res" style="color: var(--green)"
+                >결과</span
+              >
+            </div>
+            <div class="tl-card-body">
+              <ul class="tl-result-list">
+                <li>
+                  숫자 데이터가 사용자가 이해할 수 있는 자연어 소비 피드백으로
+                  확장됨
+                </li>
+                <li>
+                  외부 AI 연동을 단순 호출이 아니라, 재사용과 갱신 조건까지
+                  포함한 구조로 설계
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <!-- NEXT PROJECT NAV -->
+    <div
+      style="
+        position: relative;
+        z-index: 1;
+        border-bottom: 1px solid var(--border);
+      "
+    >
+      <div
+        style="
+          max-width: 1100px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        "
+      >
+        <div
+          style="
+            padding: 2.5rem 2rem;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            color: var(--ink3);
+          "
+        >
+          <span style="font-family: var(--mono); font-size: 0.65rem"
+            >← 이전 프로젝트</span
+          >
+          <span
+            style="
+              font-family: var(--display);
+              font-size: 1.5rem;
+              color: var(--bg3);
+            "
+            >없음</span
+          >
+        </div>
+        <a
+          href="project-chat-server.html"
+          style="
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+            transition: background 0.2s;
+            text-decoration: none;
+            color: var(--ink);
+          "
+          onmouseover="this.style.background = 'var(--paper)'"
+          onmouseout="this.style.background = ''"
+        >
+          <span
+            style="
+              font-family: var(--mono);
+              font-size: 0.65rem;
+              color: var(--ink3);
+            "
+            >다음 프로젝트 →</span
+          >
+          <span style="font-family: var(--display); font-size: 1.8rem"
+            >CHAT SERVER</span
+          >
+        </a>
+      </div>
+    </div>
+
+    <footer>
+      <a
+        href="portfolio.html"
+        style="font-family: var(--mono); font-size: 0.7rem; color: var(--ink3)"
+        >← 포트폴리오로 돌아가기</a
+      >
+      <div><span class="dot-live"></span>KIM.DO YEON · Backend Engineer</div>
+      <span>© 2025 KIM.DEV</span>
+    </footer>
+
+    <script>
+      (function () {
+        const canvas = document.getElementById("bg-canvas"),
+          ctx = canvas.getContext("2d");
+        const symbols = [
+          "{}",
+          "[]",
+          "()",
+          "//",
+          "&&",
+          "!=",
+          "->",
+          "=>",
+          "fn",
+          "db",
+          "if",
+          "try",
+          "200",
+          "GET",
+          "POST",
+          "SQL",
+          "JWT",
+          "API",
+          "TTL",
+        ];
+        let particles = [],
+          W,
+          H;
+        function resize() {
+          W = canvas.width = window.innerWidth;
+          H = canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener("resize", resize);
+        function mk() {
+          return {
+            x: Math.random() * W,
+            y: H + 20,
+            sym: symbols[Math.floor(Math.random() * symbols.length)],
+            speed: 0.2 + Math.random() * 0.35,
+            opacity: 0.05 + Math.random() * 0.08,
+            drift: (Math.random() - 0.5) * 0.25,
+          };
+        }
+        for (let i = 0; i < 50; i++) {
+          const p = mk();
+          p.y = Math.random() * H;
+          particles.push(p);
+        }
+        function draw() {
+          ctx.clearRect(0, 0, W, H);
+          ctx.font = '13px "DM Mono",monospace';
+          particles.forEach((p) => {
+            ctx.globalAlpha = p.opacity;
+            ctx.fillStyle = "#1A3A2A";
+            ctx.fillText(p.sym, p.x, p.y);
+            p.y -= p.speed;
+            p.x += p.drift;
+            if (p.y < -30) Object.assign(p, mk());
+          });
+          ctx.globalAlpha = 1;
+          if (Math.random() < 0.025) particles.push(mk());
+          if (particles.length > 80) particles.shift();
+          requestAnimationFrame(draw);
+        }
+        draw();
+      })();
+
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("in");
+              obs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => obs.observe(el));
+
+      /* contrib bar animate */
+      const barObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target
+                .querySelectorAll(".contrib-fill[data-width]")
+                .forEach((bar) => {
+                  setTimeout(() => {
+                    bar.style.width = bar.dataset.width;
+                  }, 150);
+                });
+              barObs.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.3 },
+      );
+      document
+        .querySelectorAll(".contrib-bar-wrap")
+        .forEach((el) => barObs.observe(el));
+    </script>
+  </body>
+</html>
