@@ -49,6 +49,24 @@
         text-decoration: none;
         color: inherit;
       }
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: rgba(0, 0, 0, 0.05);
+        z-index: 1200;
+        pointer-events: none;
+      }
+      .scroll-progress-bar {
+        display: block;
+        width: 0;
+        height: 100%;
+        background: var(--blue);
+        box-shadow: 0 0 12px rgba(0, 87, 255, 0.28);
+        transition: width 0.08s linear;
+      }
       #bg-canvas {
         position: fixed;
         inset: 0;
@@ -726,11 +744,33 @@
       .proj-card:hover {
         background: var(--bg);
       }
+      .proj-card-head {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        flex-wrap: wrap;
+        margin-bottom: 0.5rem;
+      }
       .proj-num {
         font-family: var(--mono);
         font-size: 0.65rem;
         color: var(--ink3);
         margin-bottom: 0.5rem;
+      }
+      .proj-card-head .proj-num {
+        margin-bottom: 0;
+      }
+      .award-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.2rem 0.55rem;
+        border-radius: 999px;
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        color: #9d5b00;
+        background: rgba(255, 190, 11, 0.16);
+        border: 1px solid rgba(255, 190, 11, 0.34);
       }
       .proj-name {
         font-family: var(--display);
@@ -1042,6 +1082,9 @@
     </style>
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true">
+      <span class="scroll-progress-bar" id="scroll-progress-bar"></span>
+    </div>
     <canvas id="bg-canvas"></canvas>
     <nav>
       <div class="nav-logo">
@@ -1072,8 +1115,8 @@
         <h1 class="hero-name">KIM<br /><span class="line2">DO YEON</span></h1>
         <p class="hero-sub"><span>Backend Engineer</span> Suwon, KR</p>
         <p class="hero-desc">
-          요구사항을 서버 구조와 데이터 흐름으로 풀어내는 사람.<br />대용량
-          트래픽, 분산 시스템, 성능 최적화를<br />코드로 풀어냅니다.
+          도메인 설계, 대용량 배치, 운영 자동화, 성능 최적화를 중심으로<br />문제를
+          서버 구조와 데이터 흐름으로 풀어내는 백엔드 엔지니어입니다.
         </p>
         <div class="hero-actions">
           <a href="#projects" class="btn-main"
@@ -1209,10 +1252,9 @@
       <h2 class="big reveal d1">WHAT I<br />BUILD WITH</h2>
       <div class="stack-grid reveal d2">
         <div class="stack-cell">
-          <div class="stack-cell-label">Backend · Languages</div>
+          <div class="stack-cell-label">Language / Framework</div>
           <div class="stack-tags">
-            <span class="stag b">Java 17</span
-            ><span class="stag b">Spring Boot</span
+            <span class="stag b">Java</span><span class="stag b">Spring Boot</span
             ><span class="stag b">Spring Batch</span
             ><span class="stag b">Spring Security</span>
           </div>
@@ -1221,42 +1263,31 @@
           <div class="stack-cell-label">Database</div>
           <div class="stack-tags">
             <span class="stag g">PostgreSQL</span
-            ><span class="stag g">MySQL</span><span class="stag g">MongoDB</span
-            ><span class="stag g">Redis</span
+            ><span class="stag g">Redis</span><span class="stag g">MySQL</span
             ><span class="stag g">Elasticsearch</span>
           </div>
         </div>
         <div class="stack-cell">
-          <div class="stack-cell-label">Infra · Cloud</div>
+          <div class="stack-cell-label">Infra / Cloud</div>
           <div class="stack-tags">
-            <span class="stag a">AWS</span><span class="stag a">AWS CDK</span
+            <span class="stag a">AWS CDK</span><span class="stag a">Jenkins</span
             ><span class="stag a">Docker</span
-            ><span class="stag a">Jenkins</span
             ><span class="stag a">GitHub Actions</span>
           </div>
         </div>
         <div class="stack-cell">
-          <div class="stack-cell-label">Messaging</div>
-          <div class="stack-tags">
-            <span class="stag r">Kafka</span
-            ><span class="stag r">EventBridge</span
-            ><span class="stag r">SSE</span>
-          </div>
-        </div>
-        <div class="stack-cell">
-          <div class="stack-cell-label">Observability</div>
+          <div class="stack-cell-label">Testing / Observability</div>
           <div class="stack-tags">
             <span class="stag n">Prometheus</span
-            ><span class="stag n">Grafana</span
-            ><span class="stag n">PinPoint</span
+            ><span class="stag n">JUnit5</span><span class="stag n">Grafana</span
             ><span class="stag n">Loki</span>
           </div>
         </div>
         <div class="stack-cell">
-          <div class="stack-cell-label">Architecture</div>
+          <div class="stack-cell-label">Communication</div>
           <div class="stack-tags">
-            <span class="stag n">Event-Driven</span
-            ><span class="stag n">DDD</span><span class="stag n">CQRS</span>
+            <span class="stag n">GitHub</span><span class="stag n">Jira</span
+            ><span class="stag n">Notion</span><span class="stag n">Figma</span>
           </div>
         </div>
       </div>
@@ -1444,7 +1475,10 @@
       <h2 class="big reveal d1">PROJECTS</h2>
       <div class="proj-grid reveal d2">
         <div class="proj-card" data-href="project-holliverse.html">
-          <div class="proj-num">01 / URECA Project</div>
+          <div class="proj-card-head">
+            <div class="proj-num">01 / URECA Project</div>
+            <span class="award-chip">🏆 우수상</span>
+          </div>
           <div class="proj-name">Holliverse</div>
           <p class="proj-desc">
             분산된 고객 데이터를 통합하여 사용자에게는 최적의 상품을,
@@ -1453,20 +1487,20 @@
           </p>
           <div class="proj-stats">
             <div class="pstat">
-              <div class="pstat-val">-50.9%</div>
-              <div class="pstat-lbl">빠른 배포</div>
+              <div class="pstat-val">26.87% → 0%</div>
+              <div class="pstat-lbl">이탈률 로그 유실률</div>
             </div>
             <div class="pstat">
-              <div class="pstat-val">오케스트레이션</div>
-              <div class="pstat-lbl">AWS CDK</div>
+              <div class="pstat-val">99.4% → 16%</div>
+              <div class="pstat-lbl">ECS CPU 안정화</div>
             </div>
             <div class="pstat">
-              <div class="pstat-val">30K</div>
-              <div class="pstat-lbl">DAU</div>
+              <div class="pstat-val">449.1s → 82.7s</div>
+              <div class="pstat-lbl">모니터링 배포 단축</div>
             </div>
             <div class="pstat">
-              <div class="pstat-val">Award</div>
-              <div class="pstat-lbl">우수상</div>
+              <div class="pstat-val">91.34%</div>
+              <div class="pstat-lbl">상담 데이터 Recall</div>
             </div>
           </div>
           <div class="proj-stack">
@@ -1494,7 +1528,10 @@
           </div>
         </div>
         <div class="proj-card" data-href="project-tr1l.html">
-          <div class="proj-num">02 / URECA PROJECT</div>
+          <div class="proj-card-head">
+            <div class="proj-num">02 / URECA PROJECT</div>
+            <span class="award-chip">🏆 우수상</span>
+          </div>
           <div class="proj-name">TR1L</div>
           <p class="proj-desc">
             대규모 통신사 데이터를 기반으로 고객별
@@ -1504,19 +1541,19 @@
           <div class="proj-stats">
             <div class="pstat">
               <div class="pstat-val">92.64%</div>
-              <div class="pstat-lbl">배치 속도 절감</div>
+              <div class="pstat-lbl">정산 배치 시간 단축</div>
             </div>
             <div class="pstat">
-              <div class="pstat-val">12M</div>
-              <div class="pstat-lbl">처리 데이터</div>
+              <div class="pstat-val">1M+</div>
+              <div class="pstat-lbl">월 정산 처리 대상</div>
             </div>
             <div class="pstat">
-              <div class="pstat-val">DDD</div>
-              <div class="pstat-lbl">Domain Driven Design</div>
+              <div class="pstat-val">Rerun-safe</div>
+              <div class="pstat-lbl">상태 기반 재실행 설계</div>
             </div>
             <div class="pstat">
-              <div class="pstat-val">Award</div>
-              <div class="pstat-lbl">우수상</div>
+              <div class="pstat-val">Claim-check</div>
+              <div class="pstat-lbl">Lease 기반 멀티워커 처리</div>
             </div>
           </div>
           <div class="proj-stack">
@@ -1553,19 +1590,19 @@
           <div class="proj-stats">
             <div class="pstat">
               <div class="pstat-val">+55.89%</div>
-              <div class="pstat-lbl">검색 정확성 향상</div>
+              <div class="pstat-lbl">검색 정확도 향상</div>
+            </div>
+            <div class="pstat">
+              <div class="pstat-val">10,000건</div>
+              <div class="pstat-lbl">좋아요 정합성 100%</div>
             </div>
             <div class="pstat">
               <div class="pstat-val">4.48배</div>
-              <div class="pstat-lbl">빠른 배포</div>
+              <div class="pstat-lbl">CI/CD 배포 가속</div>
             </div>
             <div class="pstat">
               <div class="pstat-val">Real-time</div>
-              <div class="pstat-lbl">Redis Pub/Sub + SSE</div>
-            </div>
-            <div class="pstat">
-              <div class="pstat-val">1M</div>
-              <div class="pstat-lbl">동시성 제어</div>
+              <div class="pstat-lbl">jobId + SSE 진행률 추적</div>
             </div>
           </div>
           <div class="proj-stack">
@@ -1617,23 +1654,21 @@
               <div class="pstat-lbl">P95 응답 시간 개선</div>
             </div>
             <div class="pstat">
-              <div class="pstat-val">Named LOCK</div>
-              <div class="pstat-lbl">
-                GET_LOCK 기반 커스텀 카테고리 정합성 제어
-              </div>
+              <div class="pstat-val">Caffeine</div>
+              <div class="pstat-lbl">사용자별 캐시 최적화</div>
             </div>
             <div class="pstat">
-              <div class="pstat-val">1M</div>
-              <div class="pstat-lbl">부하 테스트</div>
+              <div class="pstat-val">Named Lock</div>
+              <div class="pstat-lbl">카테고리 정합성 제어</div>
             </div>
           </div>
           <div class="proj-stack">
             <span class="stag b">Spring Boot</span>
             <span class="stag b">Java 21</span>
-            <span class="stag b">Spring Secrurity</span>
+            <span class="stag b">Spring Security</span>
             <span class="stag r">MySQL</span>
             <span class="stag a">AWS</span>
-            <span class="stag a">Github Actions</span>
+            <span class="stag a">GitHub Actions</span>
           </div>
           <div class="proj-links">
             <a
@@ -1893,6 +1928,18 @@
           window.location.href = card.dataset.href;
         });
       });
+      const progressBar = document.getElementById("scroll-progress-bar");
+      function updateScrollProgress() {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollRange =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress =
+          scrollRange <= 0 ? 0 : Math.min((scrollTop / scrollRange) * 100, 100);
+        progressBar.style.width = `${progress}%`;
+      }
+      updateScrollProgress();
+      window.addEventListener("scroll", updateScrollProgress, { passive: true });
+      window.addEventListener("resize", updateScrollProgress);
     </script>
   </body>
 </html>

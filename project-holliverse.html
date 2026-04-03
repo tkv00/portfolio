@@ -49,6 +49,32 @@
         text-decoration: none;
         color: inherit;
       }
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: rgba(0, 0, 0, 0.05);
+        z-index: 1200;
+        pointer-events: none;
+      }
+      .scroll-progress-bar {
+        display: block;
+        width: 0;
+        height: 100%;
+        background: var(--blue);
+        box-shadow: 0 0 12px rgba(0, 87, 255, 0.28);
+        transition: width 0.08s linear;
+      }
+      .metric-bad {
+        color: var(--red);
+        font-weight: 700;
+      }
+      .metric-good {
+        color: var(--blue);
+        font-weight: 700;
+      }
       #bg-canvas {
         position: fixed;
         inset: 0;
@@ -118,6 +144,11 @@
         padding: 0.25rem 0.65rem;
         border-radius: 3px;
       }
+      .nav-tag.award-tag {
+        background: rgba(255, 190, 11, 0.16);
+        color: #9d5b00;
+        border-color: rgba(255, 190, 11, 0.34);
+      }
       .btn-sm {
         font-family: var(--mono);
         font-size: 0.72rem;
@@ -135,6 +166,19 @@
       .btn-sm:hover {
         background: var(--blue);
         transform: translateY(-1px);
+      }
+      .footer-back-link {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--ink3);
+        transition:
+          color 0.15s ease,
+          text-decoration-color 0.15s ease;
+      }
+      .footer-back-link:hover {
+        color: var(--blue);
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
       }
 
       /* HERO */
@@ -164,10 +208,22 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        flex-wrap: wrap;
       }
       .proj-type-badge::before {
         content: "//";
         color: var(--green);
+      }
+      .proj-award-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.2rem 0.55rem;
+        border-radius: 999px;
+        background: rgba(255, 190, 11, 0.16);
+        color: #9d5b00;
+        border: 1px solid rgba(255, 190, 11, 0.34);
+        letter-spacing: 0.04em;
       }
       .proj-title {
         font-family: var(--display);
@@ -581,10 +637,17 @@
         font-size: 0.7rem;
         color: var(--blue);
         margin-left: 0.5rem;
-        transition: opacity 0.15s;
+        transition:
+          opacity 0.15s,
+          color 0.15s,
+          transform 0.15s;
       }
       .tl-pr-link:hover {
-        opacity: 0.7;
+        opacity: 0.9;
+        color: #003ecc;
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+        transform: translateX(1px);
       }
       .dev-hero-shot {
         margin: 0 0 2.2rem;
@@ -612,6 +675,72 @@
 
       .dev-hero-caption {
         padding: 0.85rem 1rem;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--ink3);
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+      }
+      .compare-stack {
+        margin: 0 0 2.2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.9rem;
+      }
+      .compare-shot {
+        position: relative;
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--paper);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+      }
+      .compare-shot img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+      .compare-badge {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1;
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        min-width: 104px;
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        border: 2px solid rgba(255, 255, 255, 0.75);
+        text-align: center;
+        color: #fff;
+        background: rgba(232, 50, 26, 0.92);
+        box-shadow: 0 10px 24px rgba(232, 50, 26, 0.28);
+      }
+      .compare-badge.to-be {
+        background: rgba(0, 168, 107, 0.96);
+        box-shadow: 0 10px 24px rgba(0, 168, 107, 0.3);
+      }
+      .compare-arrow {
+        width: 74px;
+        height: 74px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--ink);
+        color: #fff;
+        border: 4px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 12px 24px rgba(17, 17, 16, 0.18);
+      }
+      .compare-note {
+        width: 100%;
+        padding: 0.8rem 1rem;
         font-family: var(--mono);
         font-size: 0.68rem;
         color: var(--ink3);
@@ -739,10 +868,13 @@
     </style>
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true">
+      <span class="scroll-progress-bar" id="scroll-progress-bar"></span>
+    </div>
     <canvas id="bg-canvas"></canvas>
 
     <nav>
-      <a href="index.html" class="nav-back">
+      <a href="index.html#projects" class="nav-back">
         <svg
           width="14"
           height="14"
@@ -761,8 +893,13 @@
         <span class="current">HOLLIVERSE</span>
       </div>
       <div class="nav-actions">
-        <span class="nav-tag">TEAM PROJECT</span>
-        
+        <span class="nav-tag">URECA PROJECT</span>
+        <span class="nav-tag award-tag">우수상</span>
+        <a
+          href="https://github.com/one-year-gap"
+          class="btn-sm"
+          target="_blank"
+        >
           <svg width="11" height="11" fill="currentColor" viewBox="0 0 24 24">
             <path
               d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"
@@ -776,7 +913,10 @@
     <!-- HERO -->
     <div class="proj-hero">
       <div class="proj-hero-left">
-        <div class="proj-type-badge">Ureca Project · 7인 팀</div>
+        <div class="proj-type-badge">
+          Ureca Project · 7인 팀
+          <span class="proj-award-chip">🏆 우수상 수상</span>
+        </div>
         <h1 class="proj-title">
           HOLLIVERSE<br /><span class="t-blue">TEAM: ONE-YEAR-GAP</span>
         </h1>
@@ -827,9 +967,11 @@
         </div>
         <div class="meta-block">
           <div class="meta-lbl">팀 구성</div>
-          <div class="meta-val">
-            7인 팀 · Backend/Infra &amp; 전체 시스템 아키텍처 리드
-          </div>
+          <div class="meta-val">7인 팀 · Backend 4명 / Frontend 3명</div>
+        </div>
+        <div class="meta-block">
+          <div class="meta-lbl">수상</div>
+          <div class="meta-val"><strong>우수상</strong></div>
         </div>
         <div class="meta-block">
           <div class="meta-lbl">기여도</div>
@@ -878,17 +1020,20 @@
         "
       >
         <div class="kpi-cell">
-          <div class="kpi-val green">449.1s → 220.4s</div>
-          <div class="kpi-lbl">전체 빌드/배포 시간 50.9% 단축</div>
+          <div class="kpi-val green">26.87% → 0%</div>
+          <div class="kpi-lbl">이탈률 로그 유실률</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-val">99.4% → 16%</div>
+          <div class="kpi-lbl">ECS CPU 사용률 안정화</div>
+        </div>
+        <div class="kpi-cell">
+          <div class="kpi-val green">449.1s → 82.7s</div>
+          <div class="kpi-lbl">모니터링 배포 시간 단축</div>
         </div>
         <div class="kpi-cell">
           <div class="kpi-val">91.34%</div>
-          <div class="kpi-lbl">상담 데이터 분석 recall</div>
-        </div>
-
-        <div class="kpi-cell">
-          <div class="kpi-val">15</div>
-          <div class="kpi-lbl">AWS CDK Stack</div>
+          <div class="kpi-lbl">상담 데이터 분석 Recall</div>
         </div>
       </div>
     </div>
@@ -904,7 +1049,7 @@
           <div class="ov-body">
             통신사 서비스는 고객 데이터가 여러 영역에 흩어져 있어, 고객 상태를
             통합적으로 이해하고 빠르게 대응하기 어렵다.
-            <strong>Holiverse</strong>는 분산된 데이터를 연결해 고객 분석과
+            <strong>Holliverse</strong>는 분산된 데이터를 연결해 고객 분석과
             실질적인 운영 액션을 가능하게 하는 <strong>CRM/CDP</strong> 플랫폼을
             만들기 위해 기획했다.
           </div>
@@ -950,8 +1095,11 @@
             max-width: 600px;
           "
         >
-          <strong>Tech Leader &amp; Backend Engineer</strong> — 전체 기여도 50%.
-          설계·기획부터 백엔드 개발, DevOps 구성까지 전 영역을 주도했습니다.
+          <strong>Backend Engineer &amp; DevOps</strong>로 참여해 인프라 구성,
+          오케스트레이션 설계, 상담 분석 파이프라인, 이탈 위험 고객 대시보드
+          API를 맡았습니다. PDF 포트폴리오 기준 핵심 기여는
+          <strong>전체 30%</strong>, <strong>백엔드 25%</strong>,
+          <strong>DevOps 100%</strong>, <strong>기획/설계 30%</strong>입니다.
         </p>
         <div class="contrib-bar-wrap">
           <div class="contrib-item">
@@ -1138,6 +1286,7 @@
                   인프라를 일회성 수작업이 아닌 재현 가능한 15개의 Stack 코드
                   자산으로 전환
                 </li>
+                <li>배포 변경 영향 범위를 73.3% 축소할 수 있는 구조 마련</li>
                 <li>동일한 환경에서 다시 배포하고 유지할 수 있는 기반 확보</li>
                 <li>
                   인프라 코드도 애플리케이션 코드처럼 테스트 코드를 짤 수 있는
@@ -1265,15 +1414,22 @@
             <div class="tl-card-body">
               <ul class="tl-result-list">
                 <li>
-                  모니터링 변경 배포 시간 평균 449.1초 → 82.7초, 81.6% 단축
+                  <strong class="metric-good"
+                    >모니터링 변경 배포 시간 평균 449.1초 → 82.7초, 81.6%
+                    단축</strong
+                  >
                 </li>
-                <li>서비스 배포 시간 중앙값 449.1초 → 220.4초, 50.9% 단축</li>
                 <li>
-                  서비스 배포 처리량 8.0회/시간 → 16.3회/시간, 103.7% 증가
+                  <strong class="metric-good"
+                    >서비스 배포 시간 중앙값 449.1초 → 220.4초, 50.9%
+                    단축</strong
+                  >
                 </li>
                 <li>
-                  raw click log를 최대 60초 이내 S3 적재 가능하도록 운영형 로그
-                  파이프라인 구축
+                  <strong class="metric-good"
+                    >서비스 배포 처리량 8.0회/시간 → 16.3회/시간, 103.7%
+                    증가</strong
+                  >
                 </li>
               </ul>
             </div>
@@ -1291,6 +1447,40 @@
               target="_blank"
               >↗ 내용 자세히 보기</a
             >
+          </div>
+          <div class="compare-stack reveal d2">
+            <div class="compare-shot">
+              <span class="compare-badge">AS-IS</span>
+              <img
+                src="./image/holliverse/card03_as-is.png"
+                alt="Auto Scaling 적용 전 단일 ECS task CPU 포화 상태"
+              />
+              <div class="compare-note">
+                Auto Scaling 적용 전, 단일 ECS task에 부하가 집중된 상태
+              </div>
+            </div>
+            <div class="compare-arrow" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 5v14M19 12l-7 7-7-7" />
+              </svg>
+            </div>
+            <div class="compare-shot">
+              <span class="compare-badge to-be">TO-BE</span>
+              <img
+                src="./image/holliverse/card03_to-be.png"
+                alt="Auto Scaling 적용 후 분산 처리 구조"
+              />
+              <div class="compare-note">
+                Auto Scaling 적용 후, 부하 분산과 자동 확장 흐름을 반영한 구조
+              </div>
+            </div>
           </div>
           <div class="tl-card">
             <div class="tl-card-head">
@@ -1310,8 +1500,16 @@
             </div>
             <div class="tl-card-body">
               <ul>
-                <li>CPU 최대 99.4%, Memory 최대 99.4%</li>
-                <li>Running Task Count 1, Desired Task Count 1</li>
+                <li>
+                  <strong class="metric-bad"
+                    >CPU 최대 99.4%, Memory 최대 99.4%</strong
+                  >
+                </li>
+                <li>
+                  <strong class="metric-bad"
+                    >Running Task Count 1, Desired Task Count 1</strong
+                  >
+                </li>
                 <li>테스트를 끝까지 수행할 수 있는 기본 수용량 확보 필요</li>
               </ul>
             </div>
@@ -1356,12 +1554,16 @@
             <div class="tl-card-body">
               <ul class="tl-result-list">
                 <li>
-                  Desired Task Count가 2 → 3 → 4, Running Task Count가 2 → 4로
-                  실제 scale-out 동작 확인
+                  <strong class="metric-good"
+                    >Desired Task Count가 2 → 3 → 4, Running Task Count가 2 →
+                    4</strong
+                  >로 실제 scale-out 동작 확인
                 </li>
                 <li>
-                  CPU 사용률 최대 99.4% → 16% 수준, Memory 사용률 98~99.4% →
-                  43.8~46.2%로 완화
+                  <strong class="metric-good"
+                    >CPU 사용률 최대 99.4% → 16% 수준, Memory 사용률 98~99.4% →
+                    43.8~46.2%</strong
+                  >로 완화
                 </li>
                 <li>
                   2차 테스트부터는 서버가 즉시 무너지지 않고, 어떤 API가 tail
@@ -1379,7 +1581,10 @@
             이탈률 Feature 생명주기 분리 · 오케스트레이션 엔진 구축
           </div>
           <div class="dev-hero-shot reveal d2">
-            <img src="./image/churn.png" alt="Holliverse Infra" />
+            <img
+              src="./image/holliverse/card04.svg"
+              alt="이탈률 feature 생명주기와 오케스트레이션 구조"
+            />
             <div class="dev-hero-caption">이탈률 동작 다이어그램</div>
           </div>
           <div class="tl-card">
@@ -1577,15 +1782,169 @@
         <!-- 5 -->
         <div class="tl-item">
           <div class="tl-num">5</div>
+          <div class="tl-title">
+            이탈률 로그 정합성 개선 · Outbox 기반
+            <span class="metric-good">유실률 26.87% → 0%</span>
+          </div>
+
+          <div class="dev-hero-shot reveal d2">
+            <img
+              src="./image/holliverse/churn.png"
+              alt="이탈률 로그 정합성 개선과 Outbox 기반 구조 전환"
+            />
+            <div class="dev-hero-caption">
+              Burst Test 기반 정합성 추적, Outbox 도입, batch 전송 구조 개선
+            </div>
+          </div>
+
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label bg">배경</span>
+            </div>
+            <div class="tl-card-body">
+              <p>
+                이탈률 기능은 단순히 API가 성공 응답을 주는 것보다,
+                <strong class="metric-bad"
+                  >customer가 받은 이벤트가 최종 feature DB까지 정확히
+                  반영되는가</strong
+                >
+                가 더 중요했습니다. 실제 Burst Test에서는 HTTP는 모두 accepted
+                되었지만, 최종 DB 반영 수는 기대치보다 크게 부족했습니다. 즉 이
+                문제는 단순 성능 문제가 아니라
+                <strong class="metric-bad">정합성 문제</strong>였고, request
+                수락부터 outbox, dispatch, 최종 DB 반영까지 전체 경로를 다시
+                설계하고 추적해야 했습니다.
+              </p>
+            </div>
+          </div>
+
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label ch">도전 과제</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  초기 Burst Test에서
+                  <strong class="metric-bad">9,073건 중 6,635건만 반영</strong
+                  >되어 <strong class="metric-bad">유실률 26.87%</strong>,
+                  <strong class="metric-bad">p95 9,789.065ms</strong>를 기록
+                </li>
+                <li>
+                  executor 분리 이후에도
+                  <strong class="metric-bad">10,808건 중 9,377건 반영</strong
+                  >으로 유실률이
+                  <strong class="metric-bad">13.24%</strong>까지밖에 줄지
+                  않았음
+                </li>
+                <li>
+                  request accepted와 최종 DB 반영 사이에 큰 차이가 있었기
+                  때문에, 단순 응답 성공률이 아니라
+                  <strong class="metric-bad"
+                    >intendedUniqueEvents / outbox / feature DB</strong
+                  >를 함께 추적해야 했음
+                </li>
+                <li>
+                  구조 문제인지, batch 전략 문제인지, 운영 설정 문제인지
+                  단계별로 분리해 증명할 수 있어야 했음
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tl-card">
+            <div class="tl-card-head">
+              <span class="dot-label sol">해결 방안</span>
+            </div>
+            <div class="tl-card-body">
+              <ul>
+                <li>
+                  customer request path와 admin 반영 path를 분리하기 위해
+                  <strong class="metric-good">Outbox 패턴</strong> 도입
+                </li>
+                <li>
+                  내부 scheduler가 `READY / PROCESSING / RETRY / ACKED / DEAD`
+                  상태를 관리하도록 설계해, 이벤트 전달을 추적 가능한
+                  파이프라인으로 전환
+                </li>
+                <li>
+                  admin에 <strong class="metric-good">batch endpoint</strong>를
+                  추가하고, customer에서 실제로 여러 이벤트를 묶어 보내는
+                  <strong class="metric-good">다건 전송 구조</strong>로 변경
+                </li>
+                <li>
+                  최종적으로 `memberId + KST 기준일` 단위로 그룹핑해 feature
+                  계산 문맥과 전송 단위를 맞춤
+                </li>
+                <li>
+                  `candidate`, `stored`, `acked`, 최종 DB count를 비교하는
+                  계측을 추가해 유실 지점을 단계별로 분해
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div
+            class="tl-card"
+            style="
+              border-color: rgba(0, 168, 107, 0.2);
+              background: var(--green-bg);
+            "
+          >
+            <div
+              class="tl-card-head"
+              style="
+                background: rgba(0, 168, 107, 0.08);
+                border-color: rgba(0, 168, 107, 0.15);
+              "
+            >
+              <span class="dot-label res" style="color: var(--green)"
+                >결과</span
+              >
+            </div>
+            <div class="tl-card-body">
+              <ul class="tl-result-list">
+                <li>
+                  초기 Burst Test 기준
+                  <strong class="metric-bad">유실률 26.87%</strong> →
+                  executor 분리 후
+                  <strong class="metric-good">13.24%</strong>로 감소해
+                  <strong class="metric-good">50.72%</strong> 절감
+                </li>
+                <li>
+                  Outbox + batch endpoint + 실제 다건 전송 적용 후
+                  <strong class="metric-good">13,597건 중 13,202건 반영</strong
+                  >, 유실률 <strong class="metric-good">2.91%</strong>까지
+                  낮춰 초기 대비
+                  <strong class="metric-good">89.17%</strong> 절감
+                </li>
+                <li>
+                  최종적으로 동일 burst 시나리오 재검증에서
+                  <strong class="metric-good"
+                    >intendedUniqueEvents = 21,526</strong
+                  >,
+                  <strong class="metric-good">outbox ACKED = 21,526</strong>,
+                  <strong class="metric-good"
+                    >feature DB total = 21,526</strong
+                  >으로 세 값이 완전히 일치했고, 최종
+                  <strong class="metric-good">유실률 0%</strong>를 확인
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <!-- 6 -->
+        <div class="tl-item">
+          <div class="tl-num">6</div>
           <div class="tl-title">도메인 기반 예외 처리 체계 재설계</div>
 
-          <!-- 이미지 넣을 거면 사용, 없으면 이 블록 통째로 삭제 -->
-          <!--
-  <div class="dev-hero-shot reveal d2">
-    <img src="./image/exception.png" alt="Exception Architecture" />
-    <div class="dev-hero-caption">Exception Handling Architecture</div>
-  </div>
-  -->
+          <div class="dev-hero-shot reveal d2">
+            <img
+              src="./image/holliverse/card05.png"
+              alt="도메인 기반 예외 처리 체계 재설계"
+            />
+            <div class="dev-hero-caption">Domain Exception Handling</div>
+          </div>
 
           <div class="tl-card">
             <div class="tl-card-head">
@@ -1741,7 +2100,7 @@
           >
         </div>
         <a
-          href="project-chat-server.html"
+          href="project-tr1l.html"
           style="
             padding: 2.5rem 2rem;
             display: flex;
@@ -1764,16 +2123,14 @@
             >다음 프로젝트 →</span
           >
           <span style="font-family: var(--display); font-size: 1.8rem"
-            >CHAT SERVER</span
+            >TR1L</span
           >
         </a>
       </div>
     </div>
 
     <footer>
-      <a
-        href="portfolio.html"
-        style="font-family: var(--mono); font-size: 0.7rem; color: var(--ink3)"
+      <a href="index.html#projects" class="footer-back-link"
         >← 포트폴리오로 돌아가기</a
       >
       <div><span class="dot-live"></span>KIM.DO YEON · Backend Engineer</div>
@@ -1882,6 +2239,18 @@
       document
         .querySelectorAll(".contrib-bar-wrap")
         .forEach((el) => barObs.observe(el));
+      const progressBar = document.getElementById("scroll-progress-bar");
+      function updateScrollProgress() {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollRange =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress =
+          scrollRange <= 0 ? 0 : Math.min((scrollTop / scrollRange) * 100, 100);
+        progressBar.style.width = `${progress}%`;
+      }
+      updateScrollProgress();
+      window.addEventListener("scroll", updateScrollProgress, { passive: true });
+      window.addEventListener("resize", updateScrollProgress);
     </script>
   </body>
 </html>

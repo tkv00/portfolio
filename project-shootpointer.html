@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TR1L // KIM.DO YEON</title>
+    <title>SHOOT POINTER // KIM.DO YEON</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -48,6 +48,32 @@
       a {
         text-decoration: none;
         color: inherit;
+      }
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: rgba(0, 0, 0, 0.05);
+        z-index: 1200;
+        pointer-events: none;
+      }
+      .scroll-progress-bar {
+        display: block;
+        width: 0;
+        height: 100%;
+        background: var(--blue);
+        box-shadow: 0 0 12px rgba(0, 87, 255, 0.28);
+        transition: width 0.08s linear;
+      }
+      .metric-bad {
+        color: var(--red);
+        font-weight: 700;
+      }
+      .metric-good {
+        color: var(--blue);
+        font-weight: 700;
       }
       #bg-canvas {
         position: fixed;
@@ -135,6 +161,19 @@
       .btn-sm:hover {
         background: var(--blue);
         transform: translateY(-1px);
+      }
+      .footer-back-link {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--ink3);
+        transition:
+          color 0.15s ease,
+          text-decoration-color 0.15s ease;
+      }
+      .footer-back-link:hover {
+        color: var(--blue);
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
       }
 
       /* HERO */
@@ -581,10 +620,17 @@
         font-size: 0.7rem;
         color: var(--blue);
         margin-left: 0.5rem;
-        transition: opacity 0.15s;
+        transition:
+          opacity 0.15s,
+          color 0.15s,
+          transform 0.15s;
       }
       .tl-pr-link:hover {
-        opacity: 0.7;
+        opacity: 0.9;
+        color: #003ecc;
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+        transform: translateX(1px);
       }
       .dev-hero-shot {
         margin: 0 0 2.2rem;
@@ -612,6 +658,72 @@
 
       .dev-hero-caption {
         padding: 0.85rem 1rem;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--ink3);
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+      }
+      .compare-stack {
+        margin: 0 0 2.2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.9rem;
+      }
+      .compare-shot {
+        position: relative;
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--paper);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+      }
+      .compare-shot img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+      .compare-badge {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1;
+        min-width: 104px;
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        border: 2px solid rgba(255, 255, 255, 0.75);
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-align: center;
+        color: #fff;
+        background: rgba(232, 50, 26, 0.92);
+        box-shadow: 0 10px 24px rgba(232, 50, 26, 0.28);
+      }
+      .compare-badge.to-be {
+        background: rgba(0, 168, 107, 0.96);
+        box-shadow: 0 10px 24px rgba(0, 168, 107, 0.3);
+      }
+      .compare-arrow {
+        width: 74px;
+        height: 74px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--ink);
+        color: #fff;
+        border: 4px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 12px 24px rgba(17, 17, 16, 0.18);
+      }
+      .compare-note {
+        width: 100%;
+        padding: 0.8rem 1rem;
         font-family: var(--mono);
         font-size: 0.68rem;
         color: var(--ink3);
@@ -739,10 +851,13 @@
     </style>
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true">
+      <span class="scroll-progress-bar" id="scroll-progress-bar"></span>
+    </div>
     <canvas id="bg-canvas"></canvas>
 
     <nav>
-      <a href="index.html" class="nav-back">
+      <a href="index.html#projects" class="nav-back">
         <svg
           width="14"
           height="14"
@@ -780,7 +895,7 @@
     <!-- HERO -->
     <div class="proj-hero">
       <div class="proj-hero-left">
-        <div class="proj-type-badge">Graduation Project · 5인 팀</div>
+        <div class="proj-type-badge">Project · 7인 팀</div>
         <h1 class="proj-title">
           SHOOT<br /><span class="t-blue">POINTER</span>
         </h1>
@@ -808,18 +923,16 @@
       <div class="proj-hero-right">
         <div class="meta-block">
           <div class="meta-lbl">기간</div>
-          <div class="meta-val">2025.05 ~ 2025.12</div>
+          <div class="meta-val">2026.01 ~ 2026.01</div>
         </div>
         <div class="meta-block">
           <div class="meta-lbl">팀 구성</div>
-          <div class="meta-val">
-            5인 팀 · 팀장 &amp; Backend &amp; 전체 시스템 아키텍처 리드
-          </div>
+          <div class="meta-val">7인 팀 · Backend 7명</div>
         </div>
         <div class="meta-block">
           <div class="meta-lbl">기여도</div>
           <div class="meta-val">
-            전체 40% · 백엔드 60% · DevOps 100% · 기획 40%
+            전체 20% · 백엔드 25% · 설계 40%
           </div>
         </div>
         <div class="meta-block">
@@ -833,7 +946,7 @@
             <span class="stag a">Azure</span>
             <span class="stag g">PostgreSQL</span>
             <span class="stag g">Redis</span>
-            <span class="stag g">Elastic Search</span>
+            <span class="stag g">Elasticsearch</span>
             <span class="stag n">Jacoco</span>
             <span class="stag n">Docker</span>
           </div>
@@ -864,19 +977,19 @@
       >
         <div class="kpi-cell">
           <div class="kpi-val green">+55.89%</div>
-          <div class="kpi-lbl">검색 정확성 향상</div>
+          <div class="kpi-lbl">검색 정확도 향상</div>
         </div>
         <div class="kpi-cell">
-          <div class="kpi-val">1M</div>
-          <div class="kpi-lbl">좋아요 동시성 테스트</div>
+          <div class="kpi-val">10,000건</div>
+          <div class="kpi-lbl">좋아요 정합성 100%</div>
         </div>
         <div class="kpi-cell">
-          <div class="kpi-val green">4.5배</div>
-          <div class="kpi-lbl">CI/CD 배포 시간 개선</div>
+          <div class="kpi-val green">4.48배</div>
+          <div class="kpi-lbl">CI/CD 배포 가속</div>
         </div>
         <div class="kpi-cell">
           <div class="kpi-val">Real-time</div>
-          <div class="kpi-lbl">Redis Pub/Sub + SSE</div>
+          <div class="kpi-lbl">jobId + SSE 진행률 추적</div>
         </div>
       </div>
     </div>
@@ -915,7 +1028,7 @@
           <div class="ov-body">
             ✔ OpenCV 연동 하이라이트 생성<br />
             ✔ Presigned Upload + 실시간 진행률 SSE<br />
-            ✔ ElasticSearch 기반 게시물 검색<br />
+            ✔ Elasticsearch 기반 게시물 검색<br />
             ✔ 좋아요 동시성 제어 및 랭킹 집계<br />
           </div>
         </div>
@@ -938,14 +1051,16 @@
             max-width: 600px;
           "
         >
-          <strong>Team Leader &amp; Backend Engineer</strong> — 전체 기여도 40%.
-          기획부터 OpenCV 파이프라인 개발, 프로젝트 전체 아키텍처 구성까지 전
-          영역을 주도했습니다.
+          <strong>Backend Engineer</strong>로 참여해 OpenCV 연동
+          하이라이트 파이프라인, 실시간 업로드 진행률 처리, 좋아요 동시성 제어,
+          검색 품질 개선 구간을 맡았습니다. PDF 포트폴리오 기준 핵심 기여는
+          <strong>설계 40%</strong>, <strong>백엔드 25%</strong>,
+          <strong>전체 기여도 20%</strong>입니다.
         </p>
         <div class="contrib-bar-wrap">
           <div class="contrib-item">
             <div class="contrib-header">
-              <span class="contrib-label">기획</span
+              <span class="contrib-label">설계</span
               ><span class="contrib-pct">40%</span>
             </div>
             <div class="contrib-bar">
@@ -959,26 +1074,26 @@
           <div class="contrib-item">
             <div class="contrib-header">
               <span class="contrib-label">백엔드 개발</span
-              ><span class="contrib-pct">60%</span>
+              ><span class="contrib-pct">25%</span>
             </div>
             <div class="contrib-bar">
               <div
                 class="contrib-fill green"
                 style="width: 0%"
-                data-width="60%"
+                data-width="25%"
               ></div>
             </div>
           </div>
           <div class="contrib-item">
             <div class="contrib-header">
-              <span class="contrib-label">DevOps</span
-              ><span class="contrib-pct">100%</span>
+              <span class="contrib-label">전체 기여도</span
+              ><span class="contrib-pct">20%</span>
             </div>
             <div class="contrib-bar">
               <div
                 class="contrib-fill amber"
                 style="width: 0%"
-                data-width="100%"
+                data-width="20%"
               ></div>
             </div>
           </div>
@@ -1006,7 +1121,7 @@
           >
             <li>OpenCV 연동 하이라이트 처리 파이프라인 구축</li>
             <li>Presigned Upload + 실시간 진행률 SSE</li>
-            <li>ElasticSearch 기반 게시물 검색</li>
+            <li>Elasticsearch 기반 게시물 검색</li>
             <li>좋아요 동시성 제어 및 랭킹 집계</li>
           </ul>
         </details>
@@ -1024,7 +1139,7 @@
         <div class="tl-item">
           <div class="tl-num">1</div>
           <div class="tl-title">
-            OpenCV 협업 기반 하이라이트 생성 파이프라인
+            OpenCV 기반 하이라이트 생성 파이프라인 구축
           </div>
           <div class="dev-hero-shot reveal d2">
             <img src="./image/highlight.png" alt="Highlight Diagram" />
@@ -1150,7 +1265,7 @@
             Presigned Upload + SSE 기반 실시간 진행률 처리
           </div>
           <div class="dev-hero-shot reveal d2">
-            <img src="./image/opencv.png" alt="Holliverse Infra" />
+            <img src="./image/opencv.svg" alt="Holliverse Infra" />
             <div class="dev-hero-caption">
               업로드 권한 발급부터 결과 조회까지 하나의 jobId로 추적하는 흐름
             </div>
@@ -1382,15 +1497,9 @@
             </div>
             <div class="tl-card-body">
               <ul class="tl-result-list">
-                <li>
-                  Increment Query, AtomicInteger, Optimistic Lock, Pessimistic
-                  Lock, Redis 분산락 등을 비교
-                </li>
-                <li>
-                  단순히 빠른 방식이 아니라 실제 운영 환경에서 정합성을 우선하는
-                  방식으로 선택
-                </li>
-                <li>최종 구현은 DB 비관적 락 중심으로 정리</li>
+                <li>여러 동시성 제어 방식을 동일 조건에서 비교하며 기준을 정리</li>
+                <li>단순 처리 속도보다 실제 운영 환경의 정합성을 우선해 전략 선택</li>
+                <li>DB 비관적 락 선택 → 10,000건 동시 요청에서도 정합성 100% 달성</li>
               </ul>
             </div>
           </div>
@@ -1399,9 +1508,12 @@
         <!-- 4 -->
         <div class="tl-item">
           <div class="tl-num">4</div>
-          <div class="tl-title">ElasticSearch 기반 검색 품질 개선</div>
+          <div class="tl-title">Elasticsearch 기반 검색 품질 개선</div>
           <div class="dev-hero-shot reveal d2">
-            <img src="./image/es.png" alt="Holliverse Infra" />
+            <img
+              src="./image/shootpointer/card04.png"
+              alt="Elasticsearch 기반 검색 품질 개선 결과"
+            />
             <div class="dev-hero-caption">Elastic Search 검색 정확도</div>
           </div>
           <div class="tl-card">
@@ -1442,22 +1554,17 @@
                 <li>
                   Docker 기반 Elasticsearch + Kibana + Nori 형태소 분석기 구축
                   <a
-                    href="https://codekim3570.tistory.com/entry/Shoot-Pointer-%EA%B2%8C%EC%8B%9C%EB%AC%BC-%EA%B2%80%EC%83%89-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-ElasticSearch-%EB%8F%84%EC%9E%85%EA%B8%B01-Docker%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-ElasticSearch-Kibana-%EA%B5%AC%EC%B6%95-%EB%B0%8F-%ED%85%8C%EC%8A%A4%ED%8A%B8-%ED%99%98%EA%B2%BD-%EA%B5%AC%EC%B6%95"
+                    href="https://github.com/ShootPointer/ShootPointer_BE/pull/113"
                     class="tl-pr-link"
                     target="_blank"
-                    >↗ PR #113</a
+                    >↗ #113</a
                   >
                 </li>
 
                 <li>
                   제목/본문 가중치, 자동완성, 정렬 기준, NoOffset + Slice 기반
                   조회를 적용해 검색 결과의 relevance를 개선
-                  <a
-                    class="tl-pr-link"
-                    target="_blank"
-                    href="https://codekim3570.tistory.com/entry/Shoot-Pointer-%EA%B2%8C%EC%8B%9C%EB%AC%BC-%EA%B2%80%EC%83%89-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-ElasticSearch-%EB%8F%84%EC%9E%85%EA%B8%B02-%EA%B2%80%EC%83%89%EC%9A%A9-%EC%BF%BC%EB%A6%AC-nDCGMRRMAP-%EC%84%B1%EB%8A%A5-%EC%A7%80%ED%91%9C-%EB%B9%84%EA%B5%90-5589%F0%9F%94%BA-%EC%A0%95%ED%99%95%EC%84%B1-%ED%96%A5%EC%83%81"
-                    >↗ 내용 자세히 보기</a
-                  >
+                  
                   <a
                     href="https://github.com/ShootPointer/ShootPointer_BE/pull/125"
                     class="tl-pr-link"
@@ -1474,10 +1581,10 @@
                 <li>
                   rank-aware 지표(MRR, MAP, nDCG@10)로 검색 품질 평가
                   <a
-                    href="https://github.com/one-year-gap/api-server/pull/210"
+                    href="https://codekim3570.tistory.com/entry/Shoot-Pointer-%EA%B2%8C%EC%8B%9C%EB%AC%BC-%EA%B2%80%EC%83%89-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0-ElasticSearch-%EB%8F%84%EC%9E%85%EA%B8%B02-%EA%B2%80%EC%83%89%EC%9A%A9-%EC%BF%BC%EB%A6%AC-nDCGMRRMAP-%EC%84%B1%EB%8A%A5-%EC%A7%80%ED%91%9C-%EB%B9%84%EA%B5%90-5589%F0%9F%94%BA-%EC%A0%95%ED%99%95%EC%84%B1-%ED%96%A5%EC%83%81"
                     class="tl-pr-link"
                     target="_blank"
-                    >↗ PR #210</a
+                    >↗ 내용 자세히 보기</a
                   >
                 </li>
               </ul>
@@ -1503,10 +1610,14 @@
             </div>
             <div class="tl-card-body">
               <ul class="tl-result-list">
-                <li>nDCG@10 0.632 → 0.941</li>
-                <li>MRR@10 0.642 → 1.0</li>
-                <li>MAP@10 0.476 → 0.776</li>
-                <li>평균 정확도 55.89% 향상</li>
+                <li>
+                  <strong class="metric-good">nDCG@10 0.632 → 0.941</strong>
+                </li>
+                <li><strong class="metric-good">MRR@10 0.642 → 1.0</strong></li>
+                <li><strong class="metric-good">MAP@10 0.476 → 0.776</strong></li>
+                <li>
+                  <strong class="metric-good">평균 정확도 55.89% 향상</strong>
+                </li>
               </ul>
             </div>
           </div>
@@ -1523,9 +1634,39 @@
             >
           </div>
 
-          <div class="dev-hero-shot reveal d2">
-            <img src="./image/deploy.png" alt="Holliverse Infra" />
-            <div class="dev-hero-caption">CI/CD Architecture</div>
+          <div class="compare-stack reveal d2">
+            <div class="compare-shot">
+              <span class="compare-badge">AS-IS</span>
+              <img
+                src="./image/shootpointer/card05_as-is.png"
+                alt="Docker 최적화 전 기존 CI/CD 배포 구조"
+              />
+              <div class="compare-note">
+                최적화 전 배포 구조와 병목 지점을 정리한 화면
+              </div>
+            </div>
+            <div class="compare-arrow" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 5v14M19 12l-7 7-7-7" />
+              </svg>
+            </div>
+            <div class="compare-shot">
+              <span class="compare-badge to-be">TO-BE</span>
+              <img
+                src="./image/shootpointer/card05_to-be.png"
+                alt="Docker 최적화 후 개선된 CI/CD 배포 구조"
+              />
+              <div class="compare-note">
+                Docker 최적화 후 더 짧아진 배포 흐름과 개선 구조
+              </div>
+            </div>
           </div>
 
           <div class="tl-card">
@@ -1536,8 +1677,9 @@
               <p>
                 ShootPointer는 Jenkins + GitHub Actions + Webhook 기반 CI/CD를
                 운영 중이었고, Docker Compose 멀티 컨테이너 아키텍처로 배포하고
-                있었습니다. 그런데 배포마다 최소 5~6분, 최대 8~9분의 다운타임이
-                발생해 팀 테스트 흐름을 자주 막고 있었습니다.
+                있었습니다. 그런데 배포마다
+                <strong class="metric-bad">최소 5~6분, 최대 8~9분</strong>의
+                다운타임이 발생해 팀 테스트 흐름을 자주 막고 있었습니다.
               </p>
             </div>
           </div>
@@ -1548,7 +1690,10 @@
             </div>
             <div class="tl-card-body">
               <ul>
-                <li>Docker build + deploy 구간이 가장 큰 병목이었음</li>
+                <li>
+                  Docker build + deploy 구간이
+                  <strong class="metric-bad">가장 큰 병목</strong>이었음
+                </li>
                 <li>
                   컨테이너 삭제와 이미지 빌드가 느렸고, Docker가 디스크의 큰
                   비율을 차지하고 있었음
@@ -1595,10 +1740,22 @@
             </div>
             <div class="tl-card-body">
               <ul class="tl-result-list">
-                <li>Docker Image 용량 6.5GB → 4.9GB (24.51% 절감)</li>
-                <li>Docker Containers 용량 2.1GB → 1.9GB(9.76% 절감)</li>
-                <li>최대 4.48배 빠른 배포 속도</li>
-                <li>최소 1.34배 빠른 배포 속도</li>
+                <li>
+                  <strong class="metric-good"
+                    >Docker Image 용량 6.5GB → 4.9GB (24.51% 절감)</strong
+                  >
+                </li>
+                <li>
+                  <strong class="metric-good"
+                    >Docker Containers 용량 2.1GB → 1.9GB (9.76% 절감)</strong
+                  >
+                </li>
+                <li>
+                  <strong class="metric-good">최대 4.48배 빠른 배포 속도</strong>
+                </li>
+                <li>
+                  <strong class="metric-good">최소 1.34배 빠른 배포 속도</strong>
+                </li>
               </ul>
             </div>
           </div>
@@ -1624,35 +1781,13 @@
           grid-template-columns: 1fr 1fr;
         "
       >
-        <div
+        <a
+          href="project-tr1l.html"
           style="
             padding: 2.5rem 2rem;
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            color: var(--ink3);
-          "
-        >
-          <span style="font-family: var(--mono); font-size: 0.65rem"
-            >← 이전 프로젝트</span
-          >
-          <span
-            style="
-              font-family: var(--display);
-              font-size: 1.5rem;
-              color: var(--bg3);
-            "
-            >없음</span
-          >
-        </div>
-        <a
-          href="project-chat-server.html"
-          style="
-            padding: 2.5rem 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
             gap: 0.5rem;
             transition: background 0.2s;
             text-decoration: none;
@@ -1667,10 +1802,35 @@
               font-size: 0.65rem;
               color: var(--ink3);
             "
+            >← 이전 프로젝트</span
+          >
+          <span style="font-family: var(--display); font-size: 1.8rem">TR1L</span>
+        </a>
+        <a
+          href="project-wealthtracker.html"
+          style="
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+            transition: background 0.2s;
+            text-decoration: none;
+            color: var(--ink);
+          "
+          onmouseover="this.style.background = 'var(--paper)'"
+          onmouseout="this.style.background = ''"
+          >
+          <span
+            style="
+              font-family: var(--mono);
+              font-size: 0.65rem;
+              color: var(--ink3);
+            "
             >다음 프로젝트 →</span
           >
           <span style="font-family: var(--display); font-size: 1.8rem"
-            >CHAT SERVER</span
+            >WEALTH TRACKER</span
           >
         </a>
       </div>
@@ -1678,8 +1838,8 @@
 
     <footer>
       <a
-        href="portfolio.html"
-        style="font-family: var(--mono); font-size: 0.7rem; color: var(--ink3)"
+        href="index.html#projects"
+        class="footer-back-link"
         >← 포트폴리오로 돌아가기</a
       >
       <div><span class="dot-live"></span>KIM.DO YEON · Backend Engineer</div>
@@ -1788,6 +1948,18 @@
       document
         .querySelectorAll(".contrib-bar-wrap")
         .forEach((el) => barObs.observe(el));
+      const progressBar = document.getElementById("scroll-progress-bar");
+      function updateScrollProgress() {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollRange =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress =
+          scrollRange <= 0 ? 0 : Math.min((scrollTop / scrollRange) * 100, 100);
+        progressBar.style.width = `${progress}%`;
+      }
+      updateScrollProgress();
+      window.addEventListener("scroll", updateScrollProgress, { passive: true });
+      window.addEventListener("resize", updateScrollProgress);
     </script>
   </body>
 </html>

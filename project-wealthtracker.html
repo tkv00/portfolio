@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TR1L // KIM.DO YEON</title>
+    <title>WEALTH TRACKER // KIM.DO YEON</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -48,6 +48,32 @@
       a {
         text-decoration: none;
         color: inherit;
+      }
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: rgba(0, 0, 0, 0.05);
+        z-index: 1200;
+        pointer-events: none;
+      }
+      .scroll-progress-bar {
+        display: block;
+        width: 0;
+        height: 100%;
+        background: var(--blue);
+        box-shadow: 0 0 12px rgba(0, 87, 255, 0.28);
+        transition: width 0.08s linear;
+      }
+      .metric-bad {
+        color: var(--red);
+        font-weight: 700;
+      }
+      .metric-good {
+        color: var(--blue);
+        font-weight: 700;
       }
       #bg-canvas {
         position: fixed;
@@ -135,6 +161,19 @@
       .btn-sm:hover {
         background: var(--blue);
         transform: translateY(-1px);
+      }
+      .footer-back-link {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--ink3);
+        transition:
+          color 0.15s ease,
+          text-decoration-color 0.15s ease;
+      }
+      .footer-back-link:hover {
+        color: var(--blue);
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
       }
 
       /* HERO */
@@ -581,10 +620,17 @@
         font-size: 0.7rem;
         color: var(--blue);
         margin-left: 0.5rem;
-        transition: opacity 0.15s;
+        transition:
+          opacity 0.15s,
+          color 0.15s,
+          transform 0.15s;
       }
       .tl-pr-link:hover {
-        opacity: 0.7;
+        opacity: 0.9;
+        color: #003ecc;
+        text-decoration: underline;
+        text-underline-offset: 0.2em;
+        transform: translateX(1px);
       }
       .dev-hero-shot {
         margin: 0 0 2.2rem;
@@ -612,6 +658,134 @@
 
       .dev-hero-caption {
         padding: 0.85rem 1rem;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--ink3);
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+      }
+      .compare-stack {
+        margin: 0 0 2.2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.9rem;
+      }
+      .compare-shot {
+        position: relative;
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--paper);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+      }
+      .compare-shot img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+      .compare-badge {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1;
+        min-width: 104px;
+        padding: 0.55rem 0.9rem;
+        border-radius: 999px;
+        border: 2px solid rgba(255, 255, 255, 0.75);
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-align: center;
+        color: #fff;
+        background: rgba(232, 50, 26, 0.92);
+        box-shadow: 0 10px 24px rgba(232, 50, 26, 0.28);
+      }
+      .compare-badge.to-be {
+        background: rgba(0, 168, 107, 0.96);
+        box-shadow: 0 10px 24px rgba(0, 168, 107, 0.3);
+      }
+      .compare-arrow {
+        width: 74px;
+        height: 74px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--ink);
+        color: #fff;
+        border: 4px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 12px 24px rgba(17, 17, 16, 0.18);
+      }
+      .compare-note {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--ink3);
+        background: var(--bg2);
+        border-top: 1px solid var(--border);
+      }
+      .flow-stack {
+        margin: 0 0 2.2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.9rem;
+      }
+      .flow-shot {
+        position: relative;
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        overflow: hidden;
+        background: var(--paper);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+      }
+      .flow-shot img {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+      }
+      .flow-badge {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid rgba(255, 255, 255, 0.78);
+        font-family: var(--mono);
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #fff;
+        background: var(--blue);
+        box-shadow: 0 10px 24px rgba(61, 111, 255, 0.28);
+      }
+      .flow-arrow {
+        width: 74px;
+        height: 74px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--ink);
+        color: #fff;
+        border: 4px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 12px 24px rgba(17, 17, 16, 0.18);
+      }
+      .flow-note {
+        width: 100%;
+        padding: 0.8rem 1rem;
         font-family: var(--mono);
         font-size: 0.68rem;
         color: var(--ink3);
@@ -739,10 +913,13 @@
     </style>
   </head>
   <body>
+    <div class="scroll-progress" aria-hidden="true">
+      <span class="scroll-progress-bar" id="scroll-progress-bar"></span>
+    </div>
     <canvas id="bg-canvas"></canvas>
 
     <nav>
-      <a href="index.html" class="nav-back">
+      <a href="index.html#projects" class="nav-back">
         <svg
           width="14"
           height="14"
@@ -763,7 +940,7 @@
       <div class="nav-actions">
         <span class="nav-tag">TEAM PROJECT</span>
         <a
-          href="https://github.com/Team-TR1L/TR1L-BE"
+          href="https://github.com/software-project-yu/WealthTracker-BE"
           class="btn-sm"
           target="_blank"
         >
@@ -812,7 +989,7 @@
         </div>
         <div class="meta-block">
           <div class="meta-lbl">팀 구성</div>
-          <div class="meta-val">7인 팀 · Backend &amp; 팀장</div>
+          <div class="meta-val">7인 팀 · Backend 3명 / Frontend 3명 / Design 1명</div>
         </div>
         <div class="meta-block">
           <div class="meta-lbl">기여도</div>
@@ -826,9 +1003,10 @@
             <span class="stag b">Spring Boot</span>
             <span class="stag b">Spring Security</span>
             <span class="stag b">Spring Data JPA</span>
-            <span class="stag b">Java 17</span>
-            <span class="stag g">PostgreSQL</span>
-            <span class="stag n">Github Actions</span>
+            <span class="stag b">Java 21</span>
+            <span class="stag g">MySQL</span>
+            <span class="stag a">AWS EC2</span>
+            <span class="stag n">GitHub Actions</span>
           </div>
         </div>
       </div>
@@ -863,14 +1041,13 @@
           <div class="kpi-val">11000ms → 480ms</div>
           <div class="kpi-lbl">P95 응답 시간 개선</div>
         </div>
-
         <div class="kpi-cell">
-          <div class="kpi-val green">Named LOCK</div>
-          <div class="kpi-lbl">GET_LOCK 기반 커스텀 카테고리 정합성 제어</div>
+          <div class="kpi-val green">Caffeine</div>
+          <div class="kpi-lbl">사용자별 캐시 최적화</div>
         </div>
         <div class="kpi-cell">
-          <div class="kpi-val green">1M</div>
-          <div class="kpi-lbl">부하 테스트</div>
+          <div class="kpi-val green">Named Lock</div>
+          <div class="kpi-lbl">카테고리 정합성 제어</div>
         </div>
       </div>
     </div>
@@ -933,21 +1110,23 @@
             max-width: 600px;
           "
         >
-          <strong>Backend Engineer</strong>와 <strong>팀장</strong>으로
-          참여했고, 지출/수입 도메인, Gemini 기반 주간 피드백, 운영/배포 흐름,
-          오류 코드 정리를 주도적으로 맡았습니다.
+          <strong>Backend Engineer</strong>로 참여해 지출/수입 도메인, 집계
+          응답 설계, 카테고리 동시성 제어, 배포 자동화 구간을 맡았습니다. PDF
+          포트폴리오 기준 핵심 기여는 <strong>백엔드 45%</strong>,
+          <strong>DevOps 100%</strong>, <strong>기획 20%</strong>,
+          <strong>전체 기여도 20%</strong>입니다.
         </p>
         <div class="contrib-bar-wrap">
           <div class="contrib-item">
             <div class="contrib-header">
               <span class="contrib-label">기획</span
-              ><span class="contrib-pct">30%</span>
+              ><span class="contrib-pct">20%</span>
             </div>
             <div class="contrib-bar">
               <div
                 class="contrib-fill"
                 style="width: 0%"
-                data-width="30%"
+                data-width="20%"
               ></div>
             </div>
           </div>
@@ -961,6 +1140,19 @@
                 class="contrib-fill green"
                 style="width: 0%"
                 data-width="45%"
+              ></div>
+            </div>
+          </div>
+          <div class="contrib-item">
+            <div class="contrib-header">
+              <span class="contrib-label">DevOps</span
+              ><span class="contrib-pct">100%</span>
+            </div>
+            <div class="contrib-bar">
+              <div
+                class="contrib-fill amber"
+                style="width: 0%"
+                data-width="100%"
               ></div>
             </div>
           </div>
@@ -1011,6 +1203,62 @@
           <div class="tl-title">
             부하 테스트 기반 병목 분석 · DB/SQL 성능 튜닝
           </div>
+          <div class="flow-stack reveal d2">
+            <div class="flow-shot">
+              <span class="flow-badge">1</span>
+              <img
+                src="./image/wealthtracker/card01_1.png"
+                alt="부하 테스트 기반 1단계 병목 분석"
+              />
+              <div class="flow-note">
+                1. Locust · Prometheus · Grafana로 병목 구간을 먼저 식별
+              </div>
+            </div>
+            <div class="flow-arrow" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 5v14M19 12l-7 7-7-7" />
+              </svg>
+            </div>
+            <div class="flow-shot">
+              <span class="flow-badge">2</span>
+              <img
+                src="./image/wealthtracker/card01_2.png"
+                alt="DB와 SQL 구조 개선 2단계"
+              />
+              <div class="flow-note">
+                2. 커넥션 풀 조정 튜닝 후 성능 개선 결과 확인
+              </div>
+            </div>
+            <div class="flow-arrow" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 5v14M19 12l-7 7-7-7" />
+              </svg>
+            </div>
+            <div class="flow-shot">
+              <span class="flow-badge">3</span>
+              <img
+                src="./image/wealthtracker/card01_3.png"
+                alt="최종 성능 개선 결과 3단계"
+              />
+              <div class="flow-note">
+                3. 인덱스와 중복 조회 제거와 SQL까지 반영해 성능 개선 결과 확인
+              </div>
+            </div>
+          </div>
           <div class="tl-card">
             <div class="tl-card-head">
               <span class="dot-label bg">배경</span>
@@ -1020,9 +1268,11 @@
                 <strong>/api/expend/graph</strong>는 지출 그래프를 그리기 위한
                 핵심 조회 API였고, 1000명 동시 요청과 100만 건 더미 데이터 기준
                 부하 테스트에서
-                <strong>평균 4004ms, P95 11000ms</strong> 수준까지 응답이
-                지연되고 있었습니다. Locust, Prometheus, Grafana를 통해 실제
-                병목 구간을 먼저 확인했습니다.
+                <strong class="metric-bad">평균 4004ms, P95 11000ms</strong>
+                수준까지 응답이 지연되고 있었습니다. Locust, Prometheus,
+                Grafana를 통해 실제
+                <strong class="metric-bad">병목 구간</strong>을 먼저
+                확인했습니다.
               </p>
             </div>
           </div>
@@ -1092,10 +1342,22 @@
             </div>
             <div class="tl-card-body">
               <ul class="tl-result-list">
-                <li>평균 응답 시간: 4004ms → 722.59ms → 642.51ms</li>
-                <li>P95 응답 시간: 11000ms → 2200ms → 2100ms</li>
                 <li>
-                  캐시 적용 전 단계에서 DB 병목과 쿼리 구조를 먼저 정리하는 1차
+                  평균 응답 시간:
+                  <strong class="metric-good"
+                    >4004ms → 722.59ms → 642.51ms</strong
+                  >
+                </li>
+                <li>
+                  P95 응답 시간:
+                  <strong class="metric-good"
+                    >11000ms → 2200ms → 2100ms</strong
+                  >
+                </li>
+                <li>
+                  캐시 적용 전 단계에서
+                  <strong class="metric-bad">DB 병목</strong>과 쿼리 구조를
+                  먼저 정리하는 1차
                   개선을 완료했습니다.
                 </li>
               </ul>
@@ -1110,6 +1372,40 @@
           <div class="dev-hero-shot reveal d2">
             <img src="./image/cache.png" alt="Holliverse Infra" />
             <div class="dev-hero-caption">cache 적용 Diagram</div>
+          </div>
+          <div class="compare-stack reveal d2">
+            <div class="compare-shot">
+              <span class="compare-badge">AS-IS</span>
+              <img
+                src="./image/wealthtracker/card02_as-is.png"
+                alt="캐시 적용 전 지출 그래프 조회 흐름"
+              />
+              <div class="compare-note">
+                캐시 적용 전, 조회 요청마다 DB를 직접 타는 구조
+              </div>
+            </div>
+            <div class="compare-arrow" aria-hidden="true">
+              <svg
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 5v14M19 12l-7 7-7-7" />
+              </svg>
+            </div>
+            <div class="compare-shot">
+              <span class="compare-badge to-be">TO-BE</span>
+              <img
+                src="./image/wealthtracker/card02_to-be.png"
+                alt="캐시 적용 후 지출 그래프 조회 흐름"
+              />
+              <div class="compare-note">
+                사용자별 캐시와 CacheEvict를 적용한 개선 후 구조
+              </div>
+            </div>
           </div>
           <div class="tl-card">
             <div class="tl-card-head">
@@ -1183,12 +1479,21 @@
             </div>
             <div class="tl-card-body">
               <ul class="tl-result-list">
-                <li>평균 응답 시간: 642.51ms → 108.2ms</li>
-                <li>P95 응답 시간: 2100ms → 480ms</li>
                 <li>
-                  최종적으로 최초 대비 <strong>평균 4004ms → 108.2ms</strong>,
-                  <strong>P95 11000ms → 480ms</strong>를 달성했고, 목표였던 평균
-                  500ms / P95 1000ms도 초과 달성했습니다.
+                  평균 응답 시간:
+                  <strong class="metric-good">642.51ms → 108.2ms</strong>
+                </li>
+                <li>
+                  P95 응답 시간:
+                  <strong class="metric-good">2100ms → 480ms</strong>
+                </li>
+                <li>
+                  최종적으로 최초 대비
+                  <strong class="metric-good">평균 4004ms → 108.2ms</strong>,
+                  <strong class="metric-good">P95 11000ms → 480ms</strong>를
+                  달성했고, 목표였던
+                  <strong class="metric-good">평균 500ms / P95 1000ms</strong>도
+                  초과 달성했습니다.
                 </li>
               </ul>
             </div>
@@ -1198,7 +1503,7 @@
         <!-- 3 -->
         <div class="tl-item">
           <div class="tl-num">3</div>
-          <div class="tl-title">MySQL Named Lock 기반 카테고리 동시성 제어</div>
+          <div class="tl-title">Named Lock 기반 카테고리 동시성 제어</div>
           <div class="dev-hero-shot reveal d2">
             <img src="./image/namedlock.png" alt="Holliverse Infra" />
             <div class="dev-hero-caption">Named Lock Sequence Diagram</div>
@@ -1211,7 +1516,8 @@
               <p>
                 사용자가 새로운 지출 카테고리를 직접 추가할 수 있었는데, 여러
                 사용자가 동시에 같은 이름의 custom category를 등록하면 중복
-                insert가 발생하는 <strong>Race Condition</strong>이
+                insert가 발생하는
+                <strong class="metric-bad">Race Condition</strong>이
                 존재했습니다.
               </p>
             </div>
@@ -1271,114 +1577,14 @@
             <div class="tl-card-body">
               <ul class="tl-result-list">
                 <li>
-                  동시에 같은 카테고리명을 등록해도 최종 생성 객체 수를 1개로
-                  제어
+                  동시에 같은 카테고리명을 등록해도 최종 생성 객체 수를
+                  <strong class="metric-good">1개</strong>로 제어
                 </li>
                 <li>
-                  외부 인프라 추가 없이, 기존 MySQL만으로 동시성 문제를 해결하는
-                  구조를 만들었습니다.
+                  100개 멀티 스레드 환경에서 카테고리 생성 정합성
+                  <strong class="metric-good">100%</strong> 보장
                 </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <!-- 4 -->
-        <div class="tl-item">
-          <div class="tl-num">4</div>
-          <div class="tl-title">Gemini 기반 주간 소비 피드백과 재사용 전략</div>
-          <div class="dev-hero-shot reveal d2">
-            <img src="./image/3.png" alt="Holliverse Infra" />
-            <div class="dev-hero-caption">AI 피드백 Diagram</div>
-          </div>
-          <div class="tl-card">
-            <div class="tl-card-head">
-              <span class="dot-label bg">배경</span>
-            </div>
-            <div class="tl-card-body">
-              <p>
-                숫자와 그래프만으로는 사용자가 자신의 소비 패턴을 빠르게
-                해석하기 어렵다고 판단했습니다. 그래서 이번 주 소비를 자연어로
-                요약해 주는 피드백 기능을 추가해, 사용자가 데이터를 단순히
-                조회하는 수준을 넘어 실제로 이해하고 행동으로 연결할 수 있도록
-                만들고자 했습니다.
-              </p>
-            </div>
-          </div>
-          <div class="tl-card">
-            <div class="tl-card-head">
-              <span class="dot-label ch">도전 과제</span>
-            </div>
-            <div class="tl-card-body">
-              <ul>
-                <li>
-                  카테고리별 주간 지출 데이터를 AI가 해석할 수 있는 입력 형태로
-                  가공해야 했음
-                </li>
-                <li>
-                  같은 주간 데이터에 대해 반복 요청이 들어올 때마다 외부 AI를
-                  다시 호출하면 비용과 응답 시간이 불필요하게 증가할 수 있었음
-                </li>
-                <li>
-                  사용자가 지출을 수정하거나 삭제한 경우, 기존 피드백이 더 이상
-                  최신 데이터와 일치하지 않을 수 있었음
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="tl-card">
-            <div class="tl-card-head">
-              <span class="dot-label sol">해결 방안</span>
-            </div>
-            <div class="tl-card-body">
-              <ul>
-                <li>
-                  식비, 교통, 쇼핑 등 카테고리별 주간 지출 합계를 기준으로
-                  Gemini용 프롬프트를 직접 구성
-                </li>
-                <li>
-                  같은 주간에 대해 이미 생성된 피드백이 있고, 이후 지출 데이터에
-                  변경이 없다면 기존 피드백을 재사용하도록 설계
-                </li>
-                <li>
-                  최신 지출 생성·수정 시각과 피드백 생성 시각을 비교해, 필요한
-                  경우에만 AI를 다시 호출하도록 처리
-                </li>
-                <li>
-                  @Scheduled를 이용해 오래된 피드백을 주기적으로 정리하고, 주간
-                  단위 라이프사이클을 유지
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div
-            class="tl-card"
-            style="
-              border-color: rgba(0, 168, 107, 0.2);
-              background: var(--green-bg);
-            "
-          >
-            <div
-              class="tl-card-head"
-              style="
-                background: rgba(0, 168, 107, 0.08);
-                border-color: rgba(0, 168, 107, 0.15);
-              "
-            >
-              <span class="dot-label res" style="color: var(--green)"
-                >결과</span
-              >
-            </div>
-            <div class="tl-card-body">
-              <ul class="tl-result-list">
-                <li>
-                  숫자 데이터가 사용자가 이해할 수 있는 자연어 소비 피드백으로
-                  확장됨
-                </li>
-                <li>
-                  외부 AI 연동을 단순 호출이 아니라, 재사용과 갱신 조건까지
-                  포함한 구조로 설계
-                </li>
+                <li>외부 인프라 추가 없이 기존 MySQL만으로 동시성 문제 해결</li>
               </ul>
             </div>
           </div>
@@ -1404,35 +1610,13 @@
           grid-template-columns: 1fr 1fr;
         "
       >
-        <div
+        <a
+          href="project-shootpointer.html"
           style="
             padding: 2.5rem 2rem;
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            color: var(--ink3);
-          "
-        >
-          <span style="font-family: var(--mono); font-size: 0.65rem"
-            >← 이전 프로젝트</span
-          >
-          <span
-            style="
-              font-family: var(--display);
-              font-size: 1.5rem;
-              color: var(--bg3);
-            "
-            >없음</span
-          >
-        </div>
-        <a
-          href="project-chat-server.html"
-          style="
-            padding: 2.5rem 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
             gap: 0.5rem;
             transition: background 0.2s;
             text-decoration: none;
@@ -1447,19 +1631,46 @@
               font-size: 0.65rem;
               color: var(--ink3);
             "
-            >다음 프로젝트 →</span
+            >← 이전 프로젝트</span
           >
           <span style="font-family: var(--display); font-size: 1.8rem"
-            >CHAT SERVER</span
+            >SHOOT POINTER</span
           >
         </a>
+        <div
+          style="
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+            color: var(--ink3);
+          "
+        >
+          <span
+            style="
+              font-family: var(--mono);
+              font-size: 0.65rem;
+              color: var(--ink3);
+            "
+            >다음 프로젝트 →</span
+          >
+          <span
+            style="
+              font-family: var(--display);
+              font-size: 1.5rem;
+              color: var(--bg3);
+            "
+            >없음</span
+          >
+        </div>
       </div>
     </div>
 
     <footer>
       <a
-        href="portfolio.html"
-        style="font-family: var(--mono); font-size: 0.7rem; color: var(--ink3)"
+        href="index.html#projects"
+        class="footer-back-link"
         >← 포트폴리오로 돌아가기</a
       >
       <div><span class="dot-live"></span>KIM.DO YEON · Backend Engineer</div>
@@ -1568,6 +1779,18 @@
       document
         .querySelectorAll(".contrib-bar-wrap")
         .forEach((el) => barObs.observe(el));
+      const progressBar = document.getElementById("scroll-progress-bar");
+      function updateScrollProgress() {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const scrollRange =
+          document.documentElement.scrollHeight - window.innerHeight;
+        const progress =
+          scrollRange <= 0 ? 0 : Math.min((scrollTop / scrollRange) * 100, 100);
+        progressBar.style.width = `${progress}%`;
+      }
+      updateScrollProgress();
+      window.addEventListener("scroll", updateScrollProgress, { passive: true });
+      window.addEventListener("resize", updateScrollProgress);
     </script>
   </body>
 </html>
