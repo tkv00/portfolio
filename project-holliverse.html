@@ -840,12 +840,28 @@
         transition-delay: 0.18s;
       }
 
-      @media (max-width: 900px) {
+      @media (max-width: 1180px) {
+        nav {
+          padding: 0 1rem;
+          gap: 1rem;
+        }
+        .nav-crumb {
+          display: none;
+        }
         .proj-hero {
           grid-template-columns: 1fr;
         }
+        .proj-hero-left {
+          padding: 3.25rem 2rem;
+          border-right: none;
+          border-bottom: 1px solid var(--border);
+        }
+        .proj-hero {
+          min-height: auto;
+        }
         .proj-hero-right {
-          border-top: 1px solid var(--border);
+          padding: 2.5rem 2rem;
+          border-top: none;
         }
         .overview-grid {
           grid-template-columns: 1fr;
@@ -853,16 +869,49 @@
         .kpi-banner {
           grid-template-columns: 1fr 1fr;
         }
+        .section {
+          padding: 4rem 1.5rem;
+        }
       }
-      @media (max-width: 600px) {
+      @media (max-width: 760px) {
+        nav {
+          height: auto;
+          min-height: 52px;
+          padding: 0.8rem 1rem;
+          flex-wrap: wrap;
+        }
+        .nav-actions {
+          width: 100%;
+          justify-content: flex-end;
+        }
         .proj-title {
           font-size: clamp(4rem, 18vw, 6rem);
         }
         .tl-item {
           padding-left: 52px;
         }
+        .tl-title {
+          font-size: 1.3rem;
+        }
         .kpi-banner {
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: 1fr;
+        }
+        .compare-badge {
+          top: 0.75rem;
+          left: 0.75rem;
+          min-width: 88px;
+          font-size: 0.72rem;
+          padding: 0.45rem 0.75rem;
+        }
+        .compare-arrow {
+          width: 60px;
+          height: 60px;
+        }
+        footer {
+          padding: 1.25rem 1rem;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.7rem;
         }
       }
     </style>
@@ -1834,8 +1883,7 @@
                   executor 분리 이후에도
                   <strong class="metric-bad">10,808건 중 9,377건 반영</strong
                   >으로 유실률이
-                  <strong class="metric-bad">13.24%</strong>까지밖에 줄지
-                  않았음
+                  <strong class="metric-bad">13.24%</strong>까지밖에 줄지 않았음
                 </li>
                 <li>
                   request accepted와 최종 DB 반영 사이에 큰 차이가 있었기
@@ -1940,9 +1988,8 @@
               <ul class="tl-result-list">
                 <li>
                   초기 Burst Test 기준
-                  <strong class="metric-bad">유실률 26.87%</strong> →
-                  executor 분리 후
-                  <strong class="metric-good">13.24%</strong>로 감소해
+                  <strong class="metric-bad">유실률 26.87%</strong> → executor
+                  분리 후 <strong class="metric-good">13.24%</strong>로 감소해
                   <strong class="metric-good">50.72%</strong> 절감
                   <a
                     href="https://github.com/one-year-gap/api-server/pull/277"
@@ -1960,9 +2007,8 @@
                 <li>
                   Outbox + batch endpoint + 실제 다건 전송 적용 후
                   <strong class="metric-good">13,597건 중 13,202건 반영</strong
-                  >, 유실률 <strong class="metric-good">2.91%</strong>까지
-                  낮춰 초기 대비
-                  <strong class="metric-good">89.17%</strong> 절감
+                  >, 유실률 <strong class="metric-good">2.91%</strong>까지 낮춰
+                  초기 대비 <strong class="metric-good">89.17%</strong> 절감
                   <a
                     href="https://github.com/one-year-gap/api-server/pull/280"
                     class="tl-pr-link"
@@ -1986,10 +2032,8 @@
                   최종적으로 동일 burst 시나리오 재검증에서
                   <strong class="metric-good"
                     >intendedUniqueEvents = 21,526</strong
-                  >,
-                  <strong class="metric-good">outbox ACKED = 21,526</strong>,
-                  <strong class="metric-good"
-                    >feature DB total = 21,526</strong
+                  >, <strong class="metric-good">outbox ACKED = 21,526</strong>,
+                  <strong class="metric-good">feature DB total = 21,526</strong
                   >으로 세 값이 완전히 일치했고, 최종
                   <strong class="metric-good">유실률 0%</strong>를 확인
                 </li>
@@ -2313,7 +2357,9 @@
         progressBar.style.width = `${progress}%`;
       }
       updateScrollProgress();
-      window.addEventListener("scroll", updateScrollProgress, { passive: true });
+      window.addEventListener("scroll", updateScrollProgress, {
+        passive: true,
+      });
       window.addEventListener("resize", updateScrollProgress);
     </script>
   </body>
