@@ -1861,20 +1861,54 @@
                 <li>
                   customer request path와 admin 반영 path를 분리하기 위해
                   <strong class="metric-good">Outbox 패턴</strong> 도입
+                  <a
+                    href="https://github.com/one-year-gap/api-server/pull/280"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #280</a
+                  >
                 </li>
                 <li>
                   내부 scheduler가 `READY / PROCESSING / RETRY / ACKED / DEAD`
                   상태를 관리하도록 설계해, 이벤트 전달을 추적 가능한
                   파이프라인으로 전환
+                  <a
+                    href="https://github.com/one-year-gap/api-server/pull/280"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #280</a
+                  >
                 </li>
                 <li>
                   admin에 <strong class="metric-good">batch endpoint</strong>를
                   추가하고, customer에서 실제로 여러 이벤트를 묶어 보내는
                   <strong class="metric-good">다건 전송 구조</strong>로 변경
+                  <a
+                    href="https://github.com/one-year-gap/api-server/pull/284"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #284</a
+                  >
                 </li>
                 <li>
                   최종적으로 `memberId + KST 기준일` 단위로 그룹핑해 feature
                   계산 문맥과 전송 단위를 맞춤
+                  <a
+                    href="https://github.com/one-year-gap/api-server/pull/284"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #284</a
+                  >
+                </li>
+                <li>
+                  batch 적재 경량화와 retry 부담 완화로 dispatch 경로의 write
+                  부하를 낮춤
+                  <a
+                    href="https://github.com/one-year-gap/api-server/pull/281"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #281</a
+                  >
                 </li>
                 <li>
                   `candidate`, `stored`, `acked`, 최종 DB count를 비교하는
@@ -1910,6 +1944,18 @@
                   executor 분리 후
                   <strong class="metric-good">13.24%</strong>로 감소해
                   <strong class="metric-good">50.72%</strong> 절감
+                  <a
+                    href="https://github.com/one-year-gap/api-server/pull/277"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #277</a
+                  >
+                  <a
+                    href="https://github.com/one-year-gap/api-server/pull/278"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #278</a
+                  >
                 </li>
                 <li>
                   Outbox + batch endpoint + 실제 다건 전송 적용 후
@@ -1917,6 +1963,24 @@
                   >, 유실률 <strong class="metric-good">2.91%</strong>까지
                   낮춰 초기 대비
                   <strong class="metric-good">89.17%</strong> 절감
+                  <a
+                    href="https://github.com/one-year-gap/api-server/pull/280"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #280</a
+                  >
+                  <a
+                    href="https://github.com/one-year-gap/api-server/pull/281"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #281</a
+                  >
+                  <a
+                    href="https://github.com/one-year-gap/api-server/pull/284"
+                    class="tl-pr-link"
+                    target="_blank"
+                    >↗ PR #284</a
+                  >
                 </li>
                 <li>
                   최종적으로 동일 burst 시나리오 재검증에서
