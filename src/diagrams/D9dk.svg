@@ -1,0 +1,50 @@
+<svg viewBox="0 0 998 292" xmlns="http://www.w3.org/2000/svg">
+<defs><style>@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap');</style>
+<marker id="a" viewBox="0 0 12 10" refX="11" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L12,5 L0,10 Z" fill="#a2a4a3"/></marker></defs>
+<rect width="998" height="292" fill="#000000"/>
+<rect x="0" y="0" width="362" height="236" fill="#161616" stroke="#3a3a3a" stroke-width="1.5"/>
+<text x="18" y="34" fill="#f9423a" font-size="19" font-weight="700" font-family="'Noto Sans KR', sans-serif" text-anchor="start">장애 시나리오 94가지</text>
+<text x="18" y="76" fill="#ffffff" font-size="16" font-weight="700" font-family="'Noto Sans KR', sans-serif" text-anchor="start">지점 8</text>
+<text x="92" y="76" fill="#ffffff" font-size="15" font-weight="400" font-family="'Noto Sans KR', sans-serif" text-anchor="start">Step0~Step4 사이 P0~P4</text>
+<text x="18" y="120" fill="#ffffff" font-size="16" font-weight="700" font-family="'Noto Sans KR', sans-serif" text-anchor="start">시점 3</text>
+<text x="92" y="120" fill="#ffffff" font-size="15" font-weight="400" font-family="'Noto Sans KR', sans-serif" text-anchor="start">첫, 중간, 마지막 chunk</text>
+<text x="18" y="164" fill="#ffffff" font-size="16" font-weight="700" font-family="'Noto Sans KR', sans-serif" text-anchor="start">종류 6</text>
+<text x="92" y="164" fill="#ffffff" font-size="15" font-weight="400" font-family="'Noto Sans KR', sans-serif" text-anchor="start">예외, 강제 종료, worker 2개 동시 실행,</text>
+<text x="92" y="186" fill="#ffffff" font-size="15" font-weight="400" font-family="'Noto Sans KR', sans-serif" text-anchor="start">PostgreSQL 끊김, MongoDB 끊김,</text>
+<text x="92" y="208" fill="#ffffff" font-size="15" font-weight="400" font-family="'Noto Sans KR', sans-serif" text-anchor="start">MongoDB timeout</text>
+<line x1="362" y1="118" x2="392" y2="118" stroke="#a2a4a3" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="394" y="0" width="228" height="236" fill="#161616" stroke="#3a3a3a" stroke-width="1.5"/>
+<text x="410" y="34" fill="#ffffff" font-size="19" font-weight="700" font-family="'Noto Sans KR', sans-serif" text-anchor="start">시나리오마다</text>
+<rect x="410" y="52" width="196" height="50" fill="#000000" stroke="#a2a4a3" stroke-width="1.5"/>
+<text x="422" y="74" fill="#f9423a" font-size="15" font-weight="700" font-family="'JetBrains Mono', monospace" text-anchor="start">1</text>
+<text x="442" y="74" fill="#ffffff" font-size="16" font-weight="700" font-family="'Noto Sans KR', sans-serif" text-anchor="start">정상 실행</text>
+<text x="442" y="93" fill="#a2a4a3" font-size="13.5" font-weight="400" font-family="'Noto Sans KR', sans-serif" text-anchor="start">기준 결과 저장</text>
+<line x1="508" y1="102" x2="508" y2="114" stroke="#a2a4a3" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="410" y="114" width="196" height="50" fill="#000000" stroke="#a2a4a3" stroke-width="1.5"/>
+<text x="422" y="136" fill="#f9423a" font-size="15" font-weight="700" font-family="'JetBrains Mono', monospace" text-anchor="start">2</text>
+<text x="442" y="136" fill="#ffffff" font-size="16" font-weight="700" font-family="'Noto Sans KR', sans-serif" text-anchor="start">장애를 넣고 실행</text>
+<text x="442" y="155" fill="#a2a4a3" font-size="13.5" font-weight="400" font-family="'Noto Sans KR', sans-serif" text-anchor="start">지점, 시점, 종류 지정</text>
+<line x1="508" y1="164" x2="508" y2="176" stroke="#a2a4a3" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="410" y="176" width="196" height="50" fill="#000000" stroke="#a2a4a3" stroke-width="1.5"/>
+<text x="422" y="198" fill="#f9423a" font-size="15" font-weight="700" font-family="'JetBrains Mono', monospace" text-anchor="start">3</text>
+<text x="442" y="198" fill="#ffffff" font-size="16" font-weight="700" font-family="'Noto Sans KR', sans-serif" text-anchor="start">같은 cutoff로 재실행</text>
+<text x="442" y="217" fill="#a2a4a3" font-size="13.5" font-weight="400" font-family="'Noto Sans KR', sans-serif" text-anchor="start">끝까지 마칠 때까지</text>
+<line x1="622" y1="118" x2="652" y2="118" stroke="#a2a4a3" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="654" y="0" width="344" height="236" fill="#161616" stroke="#3a3a3a" stroke-width="1.5"/>
+<text x="672" y="34" fill="#ffffff" font-size="19" font-weight="700" font-family="'Noto Sans KR', sans-serif" text-anchor="start">정상 실행과 비교</text>
+<rect x="674" y="56" width="8" height="8" fill="#f9423a"/>
+<text x="692" y="66" fill="#ffffff" font-size="15" font-weight="400" font-family="'Noto Sans KR', sans-serif" text-anchor="start">청구 대상 사용자 집합</text>
+<rect x="674" y="84" width="8" height="8" fill="#f9423a"/>
+<text x="692" y="94" fill="#ffffff" font-size="15" font-weight="400" font-family="'Noto Sans KR', sans-serif" text-anchor="start">사용자마다 작업 1건</text>
+<rect x="674" y="112" width="8" height="8" fill="#f9423a"/>
+<text x="692" y="122" fill="#ffffff" font-size="15" font-weight="400" font-family="'Noto Sans KR', sans-serif" text-anchor="start">끝나지 않은 작업 0건</text>
+<rect x="674" y="140" width="8" height="8" fill="#f9423a"/>
+<text x="692" y="150" fill="#ffffff" font-size="15" font-weight="400" font-family="'Noto Sans KR', sans-serif" text-anchor="start">작업과 청구서 1:1</text>
+<rect x="674" y="168" width="8" height="8" fill="#f9423a"/>
+<text x="692" y="178" fill="#ffffff" font-size="15" font-weight="400" font-family="'Noto Sans KR', sans-serif" text-anchor="start">사용자별 청구서 내용</text>
+<rect x="674" y="196" width="8" height="8" fill="#f9423a"/>
+<text x="692" y="206" fill="#ffffff" font-size="15" font-weight="400" font-family="'Noto Sans KR', sans-serif" text-anchor="start">사용자별 금액 (SQL로 다시 계산)</text>
+<rect x="0" y="252" width="998" height="40" fill="#4a1a17" stroke="#3a3a3a" stroke-width="1.5"/>
+<text x="18" y="278" fill="#f9423a" font-size="16" font-weight="700" font-family="'Noto Sans KR', sans-serif" text-anchor="start">결과</text>
+<text x="70" y="278" fill="#ffffff" font-size="16" font-weight="500" font-family="'Noto Sans KR', sans-serif" text-anchor="start">결함 7건을 찾아 고쳤고, 고친 뒤 재실행하면 금액과 청구서 내용이 정상 실행과 같게 나옵니다</text>
+</svg>

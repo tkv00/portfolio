@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 998 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="d2v2-service-rollout-title d2v2-service-rollout-desc" id="D2v2_service_rollout_before_after-root">
+  <title id="d2v2-service-rollout-title">서비스 배포 경로 전후</title>
+  <desc id="d2v2-service-rollout-desc">Before는 GitHub 오케스트레이터가 Node, Java, CDK를 설치하고 cdk deploy EcsClusterStack으로 CloudFormation 스택을 갱신해 ECS 서비스를 바꿨고, After는 실행 중인 task definition을 조회해 이미지만 바꾼 새 revision을 등록한 뒤 update-service를 호출하고 services-stable을 기다린다.</desc>
+  <defs>
+      <style>@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Noto+Sans+KR:wght@400;500;600;700&amp;display=swap');
+      #D2v2_service_rollout_before_after-root { --color-paper:  #FFFFFF;
+      --color-ink:    #0F1A2A;
+      --color-muted:  #6B7280;
+      --color-accent: #01438D;
+      --font-sans: 'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      --font-mono: 'IBM Plex Mono', 'Noto Sans KR', ui-monospace, monospace; }
+      #D2v2_service_rollout_before_after-root { font-family: var(--font-sans); color: var(--color-ink); }
+      #D2v2_service_rollout_before_after-root .diagram-container { width: 100%; overflow-x: auto; }
+      #D2v2_service_rollout_before_after-root .diagram-container { overflow-x: visible; }</style><marker id="D2v2_service_rollout_before_after-d2v2-service-rollout-arrow" viewBox="0 0 12 10" refX="11" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L12,5 L0,10 Z" fill="#6B7280"/></marker><marker id="D2v2_service_rollout_before_after-d2v2-service-rollout-arrow-accent" viewBox="0 0 12 10" refX="11" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L12,5 L0,10 Z" fill="#01438D"/></marker><marker id="D2v2_service_rollout_before_after-d2v2-service-rollout-arrow-sys" viewBox="0 0 12 10" refX="11" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L12,5 L0,10 Z" fill="#6B7280"/></marker><marker id="D2v2_service_rollout_before_after-d2v2-service-rollout-arrow-ink" viewBox="0 0 12 10" refX="11" refY="5" markerWidth="12" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L12,5 L0,10 Z" fill="#0F1A2A"/></marker></defs>
+  <rect width="998" height="340" fill="#FFFFFF"/>
+  <rect x="4" y="4" width="490" height="332" rx="8" fill="#F5F6F8" stroke="#D6DAE0" stroke-width="1.5"/>
+  <text x="20" y="28" fill="#6B7280" font-size="16" font-weight="600" font-family="'IBM Plex Mono', 'Noto Sans KR', ui-monospace, monospace" text-anchor="start" letter-spacing="1.6">BEFORE</text>
+  <rect x="504" y="4" width="490" height="332" rx="8" fill="#F5F6F8" stroke="#D6DAE0" stroke-width="1.5"/>
+  <text x="520" y="28" fill="#6B7280" font-size="16" font-weight="600" font-family="'IBM Plex Mono', 'Noto Sans KR', ui-monospace, monospace" text-anchor="start" letter-spacing="1.6">AFTER</text>
+  <line x1="249" y1="80" x2="249" y2="100" stroke="#6B7280" stroke-width="1.5" marker-end="url(#D2v2_service_rollout_before_after-d2v2-service-rollout-arrow)"/>
+  <line x1="249" y1="140" x2="249" y2="160" stroke="#6B7280" stroke-width="1.5" marker-end="url(#D2v2_service_rollout_before_after-d2v2-service-rollout-arrow)"/>
+  <line x1="249" y1="200" x2="249" y2="220" stroke="#6B7280" stroke-width="1.5" marker-end="url(#D2v2_service_rollout_before_after-d2v2-service-rollout-arrow)"/>
+  <line x1="249" y1="260" x2="249" y2="280" stroke="#6B7280" stroke-width="1.5" marker-end="url(#D2v2_service_rollout_before_after-d2v2-service-rollout-arrow)"/>
+  <rect x="20.0" y="40" width="458" height="40" rx="6" fill="#FFFFFF" stroke="#0F1A2A" stroke-width="1.5"/>
+  <text x="249" y="66" fill="#0F1A2A" font-size="16" text-anchor="middle" xml:space="preserve"><tspan font-family="'IBM Plex Mono', 'Noto Sans KR', ui-monospace, monospace" font-weight="500">GitHub </tspan><tspan font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" font-weight="600">오케스트레이터</tspan></text>
+  <rect x="20.0" y="100" width="458" height="40" rx="6" fill="#FFFFFF" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="249" y="126" fill="#0F1A2A" font-size="16" text-anchor="middle" xml:space="preserve"><tspan font-family="'IBM Plex Mono', 'Noto Sans KR', ui-monospace, monospace" font-weight="500">Node, Java, CDK </tspan><tspan font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" font-weight="600">설치</tspan></text>
+  <rect x="20.0" y="160" width="458" height="40" rx="6" fill="#FFFFFF" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="249" y="186" fill="#0F1A2A" font-size="16" font-weight="500" font-family="'IBM Plex Mono', 'Noto Sans KR', ui-monospace, monospace" text-anchor="middle">cdk deploy EcsClusterStack</text>
+  <rect x="20.0" y="220" width="458" height="40" rx="6" fill="#FFFFFF" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="249" y="246" fill="#0F1A2A" font-size="16" text-anchor="middle" xml:space="preserve"><tspan font-family="'IBM Plex Mono', 'Noto Sans KR', ui-monospace, monospace" font-weight="500">CloudFormation </tspan><tspan font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" font-weight="600">스택 갱신</tspan></text>
+  <rect x="20.0" y="280" width="458" height="40" rx="6" fill="#FFFFFF" stroke="#0F1A2A" stroke-width="1.5"/>
+  <text x="249" y="306" fill="#0F1A2A" font-size="16" text-anchor="middle" xml:space="preserve"><tspan font-family="'IBM Plex Mono', 'Noto Sans KR', ui-monospace, monospace" font-weight="500">ECS </tspan><tspan font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" font-weight="600">서비스</tspan></text>
+  <line x1="749" y1="80" x2="749" y2="100" stroke="#6B7280" stroke-width="1.5" marker-end="url(#D2v2_service_rollout_before_after-d2v2-service-rollout-arrow)"/>
+  <line x1="749" y1="140" x2="749" y2="160" stroke="#6B7280" stroke-width="1.5" marker-end="url(#D2v2_service_rollout_before_after-d2v2-service-rollout-arrow)"/>
+  <line x1="749" y1="200" x2="749" y2="220" stroke="#6B7280" stroke-width="1.5" marker-end="url(#D2v2_service_rollout_before_after-d2v2-service-rollout-arrow)"/>
+  <line x1="749" y1="260" x2="749" y2="280" stroke="#6B7280" stroke-width="1.5" marker-end="url(#D2v2_service_rollout_before_after-d2v2-service-rollout-arrow)"/>
+  <rect x="520.0" y="40" width="458" height="40" rx="6" fill="#FFFFFF" stroke="#0F1A2A" stroke-width="1.5"/>
+  <text x="749" y="66" fill="#0F1A2A" font-size="16" text-anchor="middle" xml:space="preserve"><tspan font-family="'IBM Plex Mono', 'Noto Sans KR', ui-monospace, monospace" font-weight="500">GitHub </tspan><tspan font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" font-weight="600">오케스트레이터</tspan></text>
+  <rect x="520.0" y="100" width="458" height="40" rx="6" fill="#E8EEF7" stroke="#01438D" stroke-width="2"/>
+  <text x="749" y="126" fill="#0F1A2A" font-size="16" text-anchor="middle" xml:space="preserve"><tspan font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" font-weight="600">실행 중인 </tspan><tspan font-family="'IBM Plex Mono', 'Noto Sans KR', ui-monospace, monospace" font-weight="500">task definition </tspan><tspan font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" font-weight="600">조회</tspan></text>
+  <rect x="520.0" y="160" width="458" height="40" rx="6" fill="#E8EEF7" stroke="#01438D" stroke-width="2"/>
+  <text x="749" y="186" fill="#0F1A2A" font-size="16" text-anchor="middle" xml:space="preserve"><tspan font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" font-weight="600">이미지만 바꿔 새 </tspan><tspan font-family="'IBM Plex Mono', 'Noto Sans KR', ui-monospace, monospace" font-weight="500">revision </tspan><tspan font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" font-weight="600">등록</tspan></text>
+  <rect x="520.0" y="220" width="458" height="40" rx="6" fill="#E8EEF7" stroke="#01438D" stroke-width="2"/>
+  <text x="749" y="246" fill="#0F1A2A" font-size="16" font-weight="500" font-family="'IBM Plex Mono', 'Noto Sans KR', ui-monospace, monospace" text-anchor="middle">update-service</text>
+  <rect x="520.0" y="280" width="458" height="40" rx="6" fill="#FFFFFF" stroke="#0F1A2A" stroke-width="1.5"/>
+  <text x="749" y="306" fill="#0F1A2A" font-size="16" text-anchor="middle" xml:space="preserve"><tspan font-family="'IBM Plex Mono', 'Noto Sans KR', ui-monospace, monospace" font-weight="500">services-stable </tspan><tspan font-family="'Noto Sans KR', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" font-weight="600">대기</tspan></text>
+</svg>
